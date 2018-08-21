@@ -1,5 +1,7 @@
 package example.micronaut;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Genre {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "genre")
     private Set<Book> books = new HashSet<>();
 
