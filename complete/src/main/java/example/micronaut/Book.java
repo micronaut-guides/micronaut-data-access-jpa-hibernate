@@ -15,6 +15,12 @@ public class Book {
 
     Book() {}
 
+    public Book(@NotNull String name, @NotNull String isbn, Genre genre) {
+        this.name = name;
+        this.isbn = isbn;
+        this.genre = genre;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
