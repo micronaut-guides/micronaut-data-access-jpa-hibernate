@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "book")
 public class Book {
 
+    Book() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

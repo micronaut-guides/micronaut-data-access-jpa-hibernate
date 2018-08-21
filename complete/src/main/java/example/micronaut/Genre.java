@@ -15,7 +15,9 @@ import java.util.Set;
 @Table(name = "genre")
 public class Genre {
 
-    public Genre(@NotNull String name) {
+    Genre() {}
+
+    Genre(@NotNull String name) {
         this.name = name;
     }
 
