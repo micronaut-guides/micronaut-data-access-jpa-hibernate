@@ -39,6 +39,11 @@ dependencies {
     compile "io.micronaut:runtime"
     compile "io.micronaut:http-client"
     compile "io.micronaut:http-server-netty"
+
+    compile "io.micronaut.configuration:hibernate-jpa"
+    compile "io.micronaut.configuration:jdbc-hikari"
+    runtime "com.h2database:h2:1.4.196"
+
     compileOnly "io.micronaut:inject-java"
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testCompile "junit:junit:4.12"
