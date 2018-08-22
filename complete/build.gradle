@@ -49,6 +49,12 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "io.micronaut:inject-java"
     testCompile "org.hamcrest:hamcrest-all:1.3"
+
+
+    //tag::hibernate-validator[]
+    compile "io.micronaut:validation"
+    compile "io.micronaut.configuration:hibernate-validator"
+    //end::hibernate-validator[]
 }
 
 shadowJar {

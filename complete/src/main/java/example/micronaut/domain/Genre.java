@@ -1,24 +1,26 @@
-package example.micronaut;
+package example.micronaut.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "book")
-public class Book {
+@Table(name = "genre")
+public class Genre {
 
-    Book() {}
+    public Genre() {}
 
-    public Book(@NotNull String name, @NotNull String isbn, Genre genre) {
+    public Genre(@NotNull String name) {
         this.name = name;
-        this.isbn = isbn;
-        this.genre = genre;
     }
 
     @Id
@@ -26,15 +28,12 @@ public class Book {
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @NotNull
-    @Column(name = "isbn", nullable = false)
-    private String isbn;
-
-    @ManyToOne
-    private Genre genre;
+    @JsonIgnore
+    @OneToMany(mappedBy = "genre")
+    private Set<Book> books = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -52,29 +51,19 @@ public class Book {
         this.name = name;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public Set<Book> getBooks() {
+        return books;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Genre{" +
             "id=" + id +
             ", name='" + name + '\'' +
-            ", isbn='" + isbn + '\'' +
-            ", genre=" + genre +
             '}';
     }
 }

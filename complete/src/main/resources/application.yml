@@ -13,7 +13,7 @@ datasources:
 jpa:
     default:
         packages-to-scan:
-            - 'example.micronaut'
+            - 'example.micronaut.domain'
         properties:
             hibernate:
                 hbm2ddl:
