@@ -12,4 +12,4 @@ include::{sourceDir}/src/test/java/example/micronaut/GenreControllerTest.java[]
 <4> if you care just about the object in the response use `retrieve`.
 <5> Sometimes, receiving just the object is not enough and you need information about the response. In this case, instead of `retrieve` you should use the `exchange` method.
 
-include::{commondir}/common-testapp.adoc[]
+include::{commondir}/common-testApp.adoc[]
