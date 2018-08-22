@@ -1,6 +1,6 @@
 Add the next snippet to `src/main/resources/application.yml`
 
-[source,java]
+[source,yml]
 .src/main/resources/application.yml
 ----
 include::{sourceDir}/src/main/resources/application.yml[tag=jpa]

@@ -4,10 +4,10 @@ Hibernate Validator is a reference implementation of the validation API.
 
 Add the next snippet to `build.gradle`
 
-[source,java]
+[source,groovy]
 .build.gradle
 ----
-include::{sourceDir}/build.gradle[tag=validation]
+include::{sourceDir}/build.gradle[tag=validation,indent=0]
 ----
 
 Create two classes to encapsulate Save and Update operations:
@@ -33,8 +33,8 @@ include::{sourceDir}/src/main/java/example/micronaut/genre/GenreController.java[
 ----
 
 <1> Add `@Validated` annotation at the class level to any class that requires validation.
-<2> The class is defined as a controller with the `@Controller` annotation mapped to the path `/genres`
-<3> Constructor injection
+<2> The class is defined as a controller with the `@Controller` annotation mapped to the path `/genres`.
+<3> Constructor injection.
 <4> Maps a `GET` request to `/genres/{id}` which attempts to show a genre. This illustrates the use of a URL path variable. If the entity is not found 404 is returned.
 <5> Maps a `PUT` request to `/genres` which attempts to update a genre.
 <6> Add `@Valid` to any method parameter which requires validation. Use a POGO supplied as a JSON payload in the request to populate command.

@@ -1,9 +1,9 @@
 Add the next snippet to `build.gradle`
 
-[source,java]
+[source,groovy]
 .build.gradle
 ----
-include::{sourceDir}/build.gradle[tag=jpa]
+include::{sourceDir}/build.gradle[tag=jpa,indent=0]
 ----
 
 <1> Configures Hibernate/JPA EntityManagerFactory beans
@@ -12,7 +12,7 @@ include::{sourceDir}/build.gradle[tag=jpa]
 
 Define the data source in `src/main/resources/application.yml`
 
-[source,java]
+[source,yml]
 .src/main/resources/application.yml
 ----
 include::{sourceDir}/src/main/resources/application.yml[tag=datasource]
