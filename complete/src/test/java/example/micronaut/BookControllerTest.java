@@ -43,7 +43,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testSaveAndShow() {
+    public void testBookCrudOperations() {
         List<Long> genreIds = new ArrayList<>();
         List<Long> bookIds = new ArrayList<>();
 

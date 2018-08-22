@@ -43,7 +43,7 @@ public class GenreControllerTest {
     }
 
     @Test
-    public void testSaveAndShow() {
+    public void testGenreCrudOperations() {
         HttpRequest request = HttpRequest.POST("/genres", new GenreSaveCommand("Microservices"));
         HttpResponse response = client.toBlocking().exchange(request);
 
