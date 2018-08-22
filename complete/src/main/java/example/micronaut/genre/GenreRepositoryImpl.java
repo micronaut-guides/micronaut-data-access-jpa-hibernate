@@ -11,13 +11,13 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
+@Singleton // <1>
 public class GenreRepositoryImpl implements GenreRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager entityManager;  // <2>
 
-    public GenreRepositoryImpl(@CurrentSession EntityManager entityManager) {
+    public GenreRepositoryImpl(@CurrentSession EntityManager entityManager) { // <2>
         this.entityManager = entityManager;
     }
 

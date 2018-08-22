@@ -1,7 +1,5 @@
 package example.micronaut;
 
-import example.micronaut.book.BookUpdateCommand;
-import example.micronaut.domain.Book;
 import example.micronaut.domain.Genre;
 import example.micronaut.genre.GenreSaveCommand;
 import example.micronaut.genre.GenreUpdateCommand;
@@ -23,13 +21,13 @@ import static org.junit.Assert.assertEquals;
 
 public class GenreControllerTest {
 
-    private static EmbeddedServer server;
-    private static HttpClient client;
+    private static EmbeddedServer server; // <1>
+    private static HttpClient client; // <2>
 
     @BeforeClass
     public static void setupServer() {
-        server = ApplicationContext.run(EmbeddedServer.class);
-        client = server.getApplicationContext().createBean(HttpClient.class, server.getURL());
+        server = ApplicationContext.run(EmbeddedServer.class); // <1>
+        client = server.getApplicationContext().createBean(HttpClient.class, server.getURL()); // <2>
     }
 
     @AfterClass
@@ -44,22 +42,24 @@ public class GenreControllerTest {
 
     @Test
     public void testGenreCrudOperations() {
-        HttpRequest request = HttpRequest.POST("/genres", new GenreSaveCommand("Microservices"));
+        HttpRequest request = HttpRequest.POST("/genres", new GenreSaveCommand("Microservices")); // <3>
         HttpResponse response = client.toBlocking().exchange(request);
 
         assertEquals(HttpStatus.CREATED, response.getStatus());
 
         Long id = entityId(response);
         request = HttpRequest.GET("/genres/"+id);
-        Genre genre = client.toBlocking().retrieve(request, Genre.class);
+        Genre genre = client.toBlocking().retrieve(request, Genre.class); // <4>
 
         assertEquals("Microservices",  genre.getName());
 
         request = HttpRequest.PUT("/genres/", new GenreUpdateCommand(id, "Micro-services"));
-        response = client.toBlocking().exchange(request);
+        response = client.toBlocking().exchange(request);  // <5>
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
+
         id = entityId(response);
+
         request = HttpRequest.GET("/genres/"+id);
         genre = client.toBlocking().retrieve(request, Genre.class);
         assertEquals("Micro-services",  genre.getName());
@@ -76,6 +76,15 @@ public class GenreControllerTest {
     }
 
     Long entityId(HttpResponse response) {
-        return Long.valueOf(response.header(HttpHeaders.LOCATION).replaceAll("/genres/", ""));
+        String path = "/genres/";
+        String value = response.header(HttpHeaders.LOCATION);
+        if ( value == null) {
+            return null;
+        }
+        int index = value.indexOf(path);
+        if ( index != -1) {
+            return Long.valueOf(value.substring(index + path.length()));
+        }
+        return null;
     }
 }

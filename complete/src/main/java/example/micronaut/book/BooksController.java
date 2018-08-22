@@ -15,6 +15,7 @@ import io.micronaut.http.annotation.Put;
 import io.micronaut.validation.Validated;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,7 @@ public class BooksController {
         Optional<Genre> genreOptional = genreRepository.findById(command.getGenreId());
         return genreOptional.map(genre -> {
             booksRepository.update(command.getId(), command.getIsbn(), command.getName(), genre);
-            return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()));
+            return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()).getPath());
         }).orElse(HttpResponse.badRequest());
     }
 
@@ -66,17 +67,16 @@ public class BooksController {
         Optional<Genre> genreOptional = genreRepository.findById(cmd.getGenreId());
         return genreOptional.map(genre -> {
             Book book = booksRepository.save(cmd.getIsbn(), cmd.getName(), genre);
-            return HttpResponse.status(HttpStatus.CREATED)
-                    .header(HttpHeaders.LOCATION, location(book));
+            return HttpResponse.created(location(book));
         }).orElse(HttpResponse.badRequest());
     }
 
-    protected String location(Book book) {
+    protected URI location(Book book) {
         return location(book.getId());
     }
 
-    protected String location(Long id) {
-        return "/books/"+id;
+    protected URI location(Long id) {
+        return URI.create("/books/"+id);
     }
 
 }

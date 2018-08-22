@@ -1,12 +1,12 @@
 package example.micronaut.genre;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import example.micronaut.domain.Genre;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Delete;
@@ -17,52 +17,52 @@ import io.micronaut.validation.Validated;
 
 import javax.validation.Valid;
 
-@Validated
-@Controller("/genres")
+@Validated // <1>
+@Controller("/genres") // <2>
 public class GenreController {
 
     protected final GenreRepository genreRepository;
 
-    public GenreController(GenreRepository genreRepository) {
+    public GenreController(GenreRepository genreRepository) { // <3>
         this.genreRepository = genreRepository;
     }
 
-    @Get("/{id}")
+    @Get("/{id}") // <4>
     public Optional<Genre> show(Long id) {
         return genreRepository.findById(id);
     }
 
-    @Put("/")
-    public HttpResponse update(@Body @Valid GenreUpdateCommand command) {
+    @Put("/") // <5>
+    public HttpResponse update(@Body @Valid GenreUpdateCommand command) { // <6>
 
         int numberOfEntitiesUpdated = genreRepository.update(command.getId(), command.getName());
 
-        return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()));
+        return HttpResponse.noContent()
+                .header(HttpHeaders.LOCATION, location(command.getId()).getPath()); // <7>
     }
 
-    @Get("/")
+    @Get("/") // <8>
     public List<Genre> list() {
         return genreRepository.findAll();
     }
 
-    @Post("/")
+    @Post("/") // <9>
     public HttpResponse save(@Body @Valid GenreSaveCommand cmd) {
         Genre genre = genreRepository.save(cmd.getName());
 
-        return HttpResponse.status(HttpStatus.CREATED)
-                .header(HttpHeaders.LOCATION, location(genre));
+        return HttpResponse.created(location(genre));
     }
 
-    @Delete("/{id}")
+    @Delete("/{id}") // <10>
     public HttpResponse delete(Long id) {
         genreRepository.deleteById(id);
         return HttpResponse.noContent();
     }
 
-    protected String location(Long id) {
-        return "/genres/"+id;
+    protected URI location(Long id) {
+        return URI.create("/genres/"+id);
     }
-    protected String location(Genre genre) {
+    protected URI location(Genre genre) {
         return location(genre.getId());
     }
 }

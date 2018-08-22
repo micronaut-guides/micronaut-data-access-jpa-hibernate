@@ -9,3 +9,6 @@ include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepository.java[
 ----
 include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepositoryImpl.java[]
 ----
+
+<1> Use `javax.inject.Singleton` to designate a class a a singleton.
+<2> Inject easily an `EntityManager`.

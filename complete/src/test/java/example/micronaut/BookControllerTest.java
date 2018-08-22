@@ -140,7 +140,15 @@ public class BookControllerTest {
         }
     }
 
-    Long entityId(HttpResponse response, String pathToBeRemoved) {
-        return Long.valueOf(response.header(HttpHeaders.LOCATION).replaceAll(pathToBeRemoved, ""));
+    Long entityId(HttpResponse response, String path) {
+        String value = response.header(HttpHeaders.LOCATION);
+        if ( value == null) {
+            return null;
+        }
+        int index = value.indexOf(path);
+        if ( index != -1) {
+            return Long.valueOf(value.substring(index + path.length()));
+        }
+        return null;
     }
 }
