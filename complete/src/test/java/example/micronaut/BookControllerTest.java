@@ -1,5 +1,6 @@
 package example.micronaut;
 
+import example.micronaut.book.BookUpdateCommand;
 import example.micronaut.domain.Book;
 import example.micronaut.book.BookSaveCommand;
 import example.micronaut.genre.GenreSaveCommand;
@@ -89,13 +90,6 @@ public class BookControllerTest {
         Long id = entityId(response, "/books/");
         bookIds.add(id);
 
-        request = HttpRequest.GET("/books/"+id);
-        Book book = client.toBlocking().retrieve(request, Book.class);
-
-        assertEquals("The Phoenix Project",  book.getName());
-        assertEquals("0988262592",  book.getIsbn());
-        assertEquals("DevOps",  book.getGenre().getName());
-
         request = HttpRequest.GET("/books");
         List books = client.toBlocking().retrieve(request, Argument.of(List.class, Book.class));
 
@@ -110,6 +104,27 @@ public class BookControllerTest {
         request = HttpRequest.GET("/books/genres/999");
         books = client.toBlocking().retrieve(request, Argument.of(List.class, Book.class));
         assertEquals(0, books.size());
+
+        request = HttpRequest.GET("/books/"+id);
+        Book book = client.toBlocking().retrieve(request, Book.class);
+
+        assertEquals("The Phoenix Project",  book.getName());
+        assertEquals("0988262592",  book.getIsbn());
+        assertEquals("DevOps",  book.getGenre().getName());
+
+        request = HttpRequest.PUT("/books/", new BookUpdateCommand(id,
+                book.getIsbn(),
+                "Phoenix Project: A Novel about It, Devops, and Helping Your Business Win",
+                genreIds.get(0)));
+        response = client.toBlocking().exchange(request);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
+
+        request = HttpRequest.GET("/books/"+id);
+        book = client.toBlocking().retrieve(request, Book.class);
+        assertEquals("Phoenix Project: A Novel about It, Devops, and Helping Your Business Win",  book.getName());
+        assertEquals("0988262592",  book.getIsbn());
+        assertEquals("Microservices",  book.getGenre().getName());
 
         // cleanup:
         for ( Long bookId : bookIds) {

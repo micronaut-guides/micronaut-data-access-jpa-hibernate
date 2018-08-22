@@ -16,6 +16,7 @@ import io.micronaut.validation.Validated;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Validated
 @Controller("/books")
@@ -37,20 +38,11 @@ public class BooksController {
 
     @Put("/")
     public HttpResponse update(@Body @Valid BookUpdateCommand command) {
-        Book book = booksRepository.findById(command.getId());
-        if (book == null) {
-            return HttpResponse.badRequest();
-        }
-        Genre genre = genreRepository.findById(command.getId());
-        if (genre == null) {
-            return HttpResponse.badRequest();
-        }
-        book.setName(command.getName());
-        book.setIsbn(command.getIsbn());
-        book.setGenre(genre);
-        booksRepository.save(book);
-
-        return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(book));
+        Optional<Genre> genreOptional = genreRepository.findById(command.getGenreId());
+        return genreOptional.map(genre -> {
+            booksRepository.update(command.getId(), command.getIsbn(), command.getName(), genre);
+            return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()));
+        }).orElse(HttpResponse.badRequest());
     }
 
     @Get("/")
@@ -59,7 +51,7 @@ public class BooksController {
     }
 
     @Get("/{id}")
-    Book show(Long id) {
+    Optional<Book> show(Long id) {
         return booksRepository.findById(id);
     }
 
@@ -71,18 +63,20 @@ public class BooksController {
 
     @Post("/")
     HttpResponse save(@Body @Valid BookSaveCommand cmd) {
-        Genre genre = genreRepository.findById(cmd.getGenreId());
-        if (genre == null) {
-            return HttpResponse.badRequest();
-        }
-
-        Book book = booksRepository.save(cmd.getIsbn(), cmd.getName(), genre);
-
-        return HttpResponse.status(HttpStatus.CREATED)
-                .header(HttpHeaders.LOCATION, location(book));
+        Optional<Genre> genreOptional = genreRepository.findById(cmd.getGenreId());
+        return genreOptional.map(genre -> {
+            Book book = booksRepository.save(cmd.getIsbn(), cmd.getName(), genre);
+            return HttpResponse.status(HttpStatus.CREATED)
+                    .header(HttpHeaders.LOCATION, location(book));
+        }).orElse(HttpResponse.badRequest());
     }
 
     protected String location(Book book) {
-        return "/books/"+book.getId();
+        return location(book.getId());
     }
+
+    protected String location(Long id) {
+        return "/books/"+id;
+    }
+
 }

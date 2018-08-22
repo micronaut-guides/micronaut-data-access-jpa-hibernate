@@ -1,14 +1,15 @@
-package example.micronaut.jpa;
+package example.micronaut.genre;
 
 import example.micronaut.domain.Genre;
-import example.micronaut.genre.GenreRepository;
 import io.micronaut.configuration.hibernate.jpa.scope.CurrentSession;
 import io.micronaut.spring.tx.annotation.Transactional;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class GenreRepositoryImpl implements GenreRepository {
@@ -22,25 +23,31 @@ public class GenreRepositoryImpl implements GenreRepository {
 
     @Override
     @Transactional(readOnly = true)
-    public Genre findById(Long id) {
-        return entityManager
-                .createQuery("SELECT g FROM Genre g WHERE g.id = :id", Genre.class)
-                .setParameter("id", id)
-                .getSingleResult();
+    public Optional<Genre> findById(Long id) {
+        try {
+
+            return Optional.of(entityManager
+                    .createQuery("SELECT g FROM Genre g WHERE g.id = :id", Genre.class)
+                    .setParameter("id", id)
+                    .getSingleResult());
+
+        } catch(NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     @Transactional
     public Genre save(String name) {
         Genre genre = new Genre(name);
-        return save(genre);
+        entityManager.persist(genre);
+        return genre;
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Genre genre = findById(id);
-        entityManager.remove(genre);
+        findById(id).ifPresent(genre -> entityManager.remove(genre));
     }
 
     @Transactional(readOnly = true)
@@ -52,9 +59,11 @@ public class GenreRepositoryImpl implements GenreRepository {
 
     @Override
     @Transactional
-    public Genre save(Genre genre) {
-        entityManager.persist(genre);
-        return genre;
+    public int update(Long id, String name) {
+        return entityManager.createQuery("UPDATE Genre g SET name = :name where id = :id")
+                .setParameter("name", name)
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
 }

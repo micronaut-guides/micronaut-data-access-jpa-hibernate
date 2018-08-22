@@ -3,10 +3,11 @@ package example.micronaut.genre;
 import example.micronaut.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenreRepository {
 
-    Genre findById(Long id);
+    Optional<Genre> findById(Long id);
 
     Genre save(String name);
 
@@ -14,5 +15,5 @@ public interface GenreRepository {
 
     List<Genre> findAll();
 
-    Genre save(Genre genre);
+    int update(Long id, String name);
 }

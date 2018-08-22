@@ -1,7 +1,10 @@
 package example.micronaut;
 
+import example.micronaut.book.BookUpdateCommand;
+import example.micronaut.domain.Book;
 import example.micronaut.domain.Genre;
 import example.micronaut.genre.GenreSaveCommand;
+import example.micronaut.genre.GenreUpdateCommand;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpHeaders;
@@ -46,11 +49,20 @@ public class GenreControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatus());
 
-        Long id = Long.valueOf(response.header(HttpHeaders.LOCATION).replaceAll("/genres/", ""));
+        Long id = entityId(response);
         request = HttpRequest.GET("/genres/"+id);
         Genre genre = client.toBlocking().retrieve(request, Genre.class);
 
         assertEquals("Microservices",  genre.getName());
+
+        request = HttpRequest.PUT("/genres/", new GenreUpdateCommand(id, "Micro-services"));
+        response = client.toBlocking().exchange(request);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
+        id = entityId(response);
+        request = HttpRequest.GET("/genres/"+id);
+        genre = client.toBlocking().retrieve(request, Genre.class);
+        assertEquals("Micro-services",  genre.getName());
 
         request = HttpRequest.GET("/genres");
         List<Genre> genres = client.toBlocking().retrieve(request, Argument.of(List.class, Genre.class));
@@ -61,5 +73,9 @@ public class GenreControllerTest {
         request = HttpRequest.DELETE("/genres/"+id);
         response = client.toBlocking().exchange(request);
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
+    }
+
+    Long entityId(HttpResponse response) {
+        return Long.valueOf(response.header(HttpHeaders.LOCATION).replaceAll("/genres/", ""));
     }
 }

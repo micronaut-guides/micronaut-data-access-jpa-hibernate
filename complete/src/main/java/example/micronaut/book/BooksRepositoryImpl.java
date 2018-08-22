@@ -1,6 +1,5 @@
-package example.micronaut.jpa;
+package example.micronaut.book;
 
-import example.micronaut.book.BooksRepository;
 import example.micronaut.domain.Book;
 import example.micronaut.domain.Genre;
 import io.micronaut.configuration.hibernate.jpa.scope.CurrentSession;
@@ -8,8 +7,10 @@ import io.micronaut.spring.tx.annotation.Transactional;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class BooksRepositoryImpl implements BooksRepository {
@@ -25,23 +26,22 @@ public class BooksRepositoryImpl implements BooksRepository {
     @Transactional
     public Book save(String isbn, String name, Genre genre) {
         Book book = new Book(isbn, name, genre);
-        return save(book);
-    }
-
-    @Override
-    @Transactional
-    public Book save(Book book) {
         entityManager.persist(book);
         return book;
     }
 
+
     @Override
     @Transactional(readOnly = true)
-    public Book findById(Long id) {
-        return entityManager
-                .createQuery("SELECT b FROM Book b WHERE b.id = :id", Book.class)
-                .setParameter("id", id)
-                .getSingleResult();
+    public Optional<Book> findById(Long id) {
+        try {
+            return Optional.of(entityManager
+                    .createQuery("SELECT b FROM Book b WHERE b.id = :id", Book.class)
+                    .setParameter("id", id)
+                    .getSingleResult());
+        } catch(NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Transactional(readOnly = true)
@@ -61,8 +61,18 @@ public class BooksRepositoryImpl implements BooksRepository {
 
     @Override
     @Transactional
+    public int update(Long id, String isbn, String name, Genre genre) {
+        return entityManager.createQuery("UPDATE Book b SET isbn = :isbn, name = :name, genre = :genre where id = :id")
+                .setParameter("name", name)
+                .setParameter("isbn", isbn)
+                .setParameter("genre", genre)
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Override
+    @Transactional
     public void deleteById(Long id) {
-        Book book = findById(id);
-        entityManager.remove(book);
+        findById(id).ifPresent(book -> entityManager.remove(book));
     }
 }

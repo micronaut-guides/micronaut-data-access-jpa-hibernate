@@ -1,0 +1,1 @@
+Read more about https://docs.micronaut.io/snapshot/guide/index.html#dataAccess[Configurations for Data Access] section in the micronaut documentation.

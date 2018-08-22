@@ -1,0 +1,5 @@
+[source,java]
+.src/test/java/example/micronaut/GenreControllerTest.java
+----
+include::{sourceDir}/src/test/java/example/micronaut/GenreControllerTest.java[]
+----

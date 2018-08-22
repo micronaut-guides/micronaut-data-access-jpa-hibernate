@@ -1,6 +1,8 @@
 package example.micronaut.genre;
 
 import java.util.List;
+import java.util.Optional;
+
 import example.micronaut.domain.Genre;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
@@ -26,20 +28,16 @@ public class GenreController {
     }
 
     @Get("/{id}")
-    public Genre show(Long id) {
+    public Optional<Genre> show(Long id) {
         return genreRepository.findById(id);
     }
 
     @Put("/")
     public HttpResponse update(@Body @Valid GenreUpdateCommand command) {
-        Genre genre = genreRepository.findById(command.getId());
-        if (genre == null) {
-            return HttpResponse.badRequest();
-        }
-        genre.setName(command.getName());
-        genreRepository.save(genre);
 
-        return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(genre));
+        int numberOfEntitiesUpdated = genreRepository.update(command.getId(), command.getName());
+
+        return HttpResponse.noContent().header(HttpHeaders.LOCATION, location(command.getId()));
     }
 
     @Get("/")
@@ -61,7 +59,10 @@ public class GenreController {
         return HttpResponse.noContent();
     }
 
+    protected String location(Long id) {
+        return "/genres/"+id;
+    }
     protected String location(Genre genre) {
-        return "/genres/"+genre.getId();
+        return location(genre.getId());
     }
 }

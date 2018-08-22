@@ -1,0 +1,11 @@
+[source,java]
+.src/main/java/example/micronaut/genre/GenreRepository.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepository.java[]
+----
+
+[source,java]
+.src/main/java/example/micronaut/genre/GenreRepositoryImpl.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepositoryImpl.java[]
+----

@@ -29,7 +29,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'io.micronaut:bom:1.0.0.M4'
+        mavenBom "io.micronaut:bom:$micronautVersion"
     }
 }
 
@@ -40,21 +40,23 @@ dependencies {
     compile "io.micronaut:http-client"
     compile "io.micronaut:http-server-netty"
 
-    compile "io.micronaut.configuration:hibernate-jpa"
-    compile "io.micronaut.configuration:jdbc-hikari"
-    runtime "com.h2database:h2:1.4.196"
-
     compileOnly "io.micronaut:inject-java"
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testCompile "junit:junit:4.12"
     testCompile "io.micronaut:inject-java"
     testCompile "org.hamcrest:hamcrest-all:1.3"
 
-
-    //tag::hibernate-validator[]
+    //tag::validation[]
     compile "io.micronaut:validation"
     compile "io.micronaut.configuration:hibernate-validator"
-    //end::hibernate-validator[]
+    //end::validation[]
+
+    //tag::jpa[]
+    compile "io.micronaut.configuration:hibernate-jpa" // <1>
+    compile "io.micronaut.configuration:jdbc-hikari" // <2>
+    runtime "com.h2database:h2:1.4.196" // <3>
+    //end::jpa[]
+
 }
 
 shadowJar {

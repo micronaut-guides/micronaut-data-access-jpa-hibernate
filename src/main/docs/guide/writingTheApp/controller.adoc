@@ -1,0 +1,52 @@
+Micronaut’s validation is built on with the standard framework – JSR 380, also known as Bean Validation 2.0.
+
+Hibernate Validator is a reference implementation of the validation API.
+
+Add the next snippet to `build.gradle`
+
+[source,java]
+.build.gradle
+----
+include::{sourceDir}/build.gradle[tag=validation]
+----
+
+Create two classes to encapsulate Save and Update operations:
+
+[source,java]
+.src/main/java/example/micronaut/genre/GenreSaveCommand.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/genre/GenreSaveCommand.java[]
+----
+
+[source,java]
+.src/main/java/example/micronaut/genre/GenreUpdateCommand.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/genre/GenreUpdateCommand.java[]
+----
+
+Create `GenreController`, a controller which exposes a resource with the common CRUD operations:
+
+|===
+|HTTP Method	 | URI | Description
+| `GET`
+| `/genres`
+| Return a List of Genres
+| `DELETE`
+| `/genres/12`
+| Delete a genre
+| `GET`
+| `/genres/12`
+| Show a genre detail
+| `PUT`
+| `/genres`
+| Update a genre
+| `POST`
+| `/genres`
+| Save a genre
+|===
+
+[source,java]
+.src/main/java/example/micronaut/genre/GenreController.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/genre/GenreController.java[]
+----

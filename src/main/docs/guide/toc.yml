@@ -1,0 +1,14 @@
+gettingStarted: 
+  title: Getting Started
+  requirements: What you will need
+  solution: Solution
+writingTheApp:
+  title: Writing the App
+  datasource: Configure Data Source
+  domain: Domain
+  repository: Repository Access
+  controller: Controller
+  tests: Tests
+runningTheApp: Running the app
+nextSteps:
+  title: Next Steps

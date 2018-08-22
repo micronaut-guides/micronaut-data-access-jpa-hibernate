@@ -1,0 +1,19 @@
+Add the next snippet to `build.gradle`
+
+[source,java]
+.build.gradle
+----
+include::{sourceDir}/build.gradle[tag=jpa]
+----
+
+<1> Configures Hibernate/JPA EntityManagerFactory beans
+<2> Configures SQL DataSource instances using Hikari Connection Pool
+<3> Add dependency to in-memory H2 Database.
+
+Define the data source in `src/main/resources/application.yml`
+
+[source,java]
+.src/main/resources/application.yml
+----
+include::{sourceDir}/src/main/resources/application.yml[tag=datasource]
+----

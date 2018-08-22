@@ -4,6 +4,7 @@ import example.micronaut.domain.Book;
 import example.micronaut.domain.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BooksRepository {
 
@@ -11,11 +12,11 @@ public interface BooksRepository {
 
     Book save(String isbn, String name, Genre genre);
 
-    Book findById(Long id);
+    Optional<Book> findById(Long id);
 
     void deleteById(Long id);
 
     List<Book> findAll();
 
-    Book save(Book book);
+    int update(Long id, String isbn, String name, Genre genre);
 }
