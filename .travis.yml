@@ -1,0 +1,18 @@
+dist: trusty
+env:
+  - MOZ_HEADLESS=1
+addons:
+  firefox: latest
+  chrome: stable
+sudo: required
+language: java
+cache:
+  directories:
+  - "$HOME/.gradle"
+jdk:
+- oraclejdk8
+before_script:
+- rm -rf target
+script:
+- if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis-build-pr.sh; fi
+- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-build.sh; fi
