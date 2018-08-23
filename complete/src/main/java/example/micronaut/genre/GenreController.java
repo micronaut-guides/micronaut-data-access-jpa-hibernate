@@ -34,10 +34,10 @@ public class GenreController {
 
     @Put("/") // <5>
     public HttpResponse update(@Body @Valid GenreUpdateCommand command) { // <6>
-
         int numberOfEntitiesUpdated = genreRepository.update(command.getId(), command.getName());
 
-        return HttpResponse.noContent()
+        return HttpResponse
+                .noContent()
                 .header(HttpHeaders.LOCATION, location(command.getId()).getPath()); // <7>
     }
 
