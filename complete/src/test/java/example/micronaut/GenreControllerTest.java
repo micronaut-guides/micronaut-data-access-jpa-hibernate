@@ -1,11 +1,12 @@
 package example.micronaut;
 
+import static org.junit.Assert.assertEquals;
+
 import example.micronaut.domain.Genre;
 import example.micronaut.genre.GenreSaveCommand;
 import example.micronaut.genre.GenreUpdateCommand;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.core.type.Argument;
-import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -16,8 +17,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class GenreControllerTest {
 
@@ -51,7 +50,7 @@ public class GenreControllerTest {
         request = HttpRequest.GET("/genres/" + id);
         Genre genre = client.toBlocking().retrieve(request, Genre.class); // <4>
 
-        assertEquals("Microservices",  genre.getName());
+        assertEquals("Microservices", genre.getName());
 
         request = HttpRequest.PUT("/genres/", new GenreUpdateCommand(id, "Micro-services"));
         response = client.toBlocking().exchange(request);  // <5>
@@ -60,7 +59,7 @@ public class GenreControllerTest {
 
         request = HttpRequest.GET("/genres/" + id);
         genre = client.toBlocking().retrieve(request, Genre.class);
-        assertEquals("Micro-services",  genre.getName());
+        assertEquals("Micro-services", genre.getName());
 
         request = HttpRequest.GET("/genres");
         List<Genre> genres = client.toBlocking().retrieve(request, Argument.of(List.class, Genre.class));
@@ -68,7 +67,7 @@ public class GenreControllerTest {
         assertEquals(1, genres.size());
 
         // cleanup:
-        request = HttpRequest.DELETE("/genres/"+id);
+        request = HttpRequest.DELETE("/genres/" + id);
         response = client.toBlocking().exchange(request);
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
     }

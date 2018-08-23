@@ -1,8 +1,10 @@
 package example.micronaut;
 
+import static org.junit.Assert.assertEquals;
+
+import example.micronaut.book.BookSaveCommand;
 import example.micronaut.book.BookUpdateCommand;
 import example.micronaut.domain.Book;
-import example.micronaut.book.BookSaveCommand;
 import example.micronaut.genre.GenreSaveCommand;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.core.type.Argument;
@@ -18,8 +20,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class BookControllerTest {
 
@@ -95,22 +95,22 @@ public class BookControllerTest {
 
         assertEquals(5, books.size());
 
-        request = HttpRequest.GET("/books/genres/"+genreIds.get(0));
+        request = HttpRequest.GET("/books/genres/" + genreIds.get(0));
         books = client.toBlocking().retrieve(request, Argument.of(List.class, Book.class));
 
         assertEquals(3, books.size());
-        assertEquals(((Book)books.get(0)).getGenre().getName(), "Microservices");
+        assertEquals(((Book) books.get(0)).getGenre().getName(), "Microservices");
 
         request = HttpRequest.GET("/books/genres/999");
         books = client.toBlocking().retrieve(request, Argument.of(List.class, Book.class));
         assertEquals(0, books.size());
 
-        request = HttpRequest.GET("/books/"+id);
+        request = HttpRequest.GET("/books/" + id);
         Book book = client.toBlocking().retrieve(request, Book.class);
 
-        assertEquals("The Phoenix Project",  book.getName());
-        assertEquals("0988262592",  book.getIsbn());
-        assertEquals("DevOps",  book.getGenre().getName());
+        assertEquals("The Phoenix Project", book.getName());
+        assertEquals("0988262592", book.getIsbn());
+        assertEquals("DevOps", book.getGenre().getName());
 
         request = HttpRequest.PUT("/books/", new BookUpdateCommand(id,
                 book.getIsbn(),
@@ -120,21 +120,21 @@ public class BookControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
 
-        request = HttpRequest.GET("/books/"+id);
+        request = HttpRequest.GET("/books/" + id);
         book = client.toBlocking().retrieve(request, Book.class);
-        assertEquals("Phoenix Project: A Novel about It, Devops, and Helping Your Business Win",  book.getName());
-        assertEquals("0988262592",  book.getIsbn());
-        assertEquals("Microservices",  book.getGenre().getName());
+        assertEquals("Phoenix Project: A Novel about It, Devops, and Helping Your Business Win", book.getName());
+        assertEquals("0988262592", book.getIsbn());
+        assertEquals("Microservices", book.getGenre().getName());
 
         // cleanup:
-        for ( Long bookId : bookIds) {
-            request = HttpRequest.DELETE("/books/"+bookId);
+        for (Long bookId : bookIds) {
+            request = HttpRequest.DELETE("/books/" + bookId);
             response = client.toBlocking().exchange(request);
             assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
         }
 
-        for ( Long genreId : genreIds) {
-            request = HttpRequest.DELETE("/genres/"+genreId);
+        for (Long genreId : genreIds) {
+            request = HttpRequest.DELETE("/genres/" + genreId);
             response = client.toBlocking().exchange(request);
             assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
         }
@@ -142,11 +142,11 @@ public class BookControllerTest {
 
     Long entityId(HttpResponse response, String path) {
         String value = response.header(HttpHeaders.LOCATION);
-        if ( value == null) {
+        if (value == null) {
             return null;
         }
         int index = value.indexOf(path);
-        if ( index != -1) {
+        if (index != -1) {
             return Long.valueOf(value.substring(index + path.length()));
         }
         return null;
