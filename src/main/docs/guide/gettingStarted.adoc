@@ -1,1 +1,2 @@
-In this guide, we are going to ....
+In this guide, we are going to write a Micronaut application that exposes some REST endpoints and store data in a
+database using JPA and Hibernate.

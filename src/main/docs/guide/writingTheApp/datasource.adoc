@@ -1,4 +1,6 @@
-Add the next snippet to `build.gradle`
+=== Data Source configuration
+
+Add the next snippet to `build.gradle` to include the necessary dependencies:
 
 [source,groovy]
 .build.gradle
@@ -6,14 +8,26 @@ Add the next snippet to `build.gradle`
 include::{sourceDir}/build.gradle[tag=jpa,indent=0]
 ----
 
-<1> Configures Hibernate/JPA EntityManagerFactory beans
-<2> Configures SQL DataSource instances using Hikari Connection Pool
+<1> Configures Hibernate/JPA EntityManagerFactory beans.
+<2> Configures SQL DataSource instances using Hikari Connection Pool.
 <3> Add dependency to in-memory H2 Database.
 
-Define the data source in `src/main/resources/application.yml`
+Define the data source in `src/main/resources/application.yml`.
 
 [source,yml]
 .src/main/resources/application.yml
 ----
 include::{sourceDir}/src/main/resources/application.yml[tag=datasource]
 ----
+
+=== JPA configuration
+
+Add the next snippet to `src/main/resources/application.yml` to configure JPA:
+
+[source,yml]
+.src/main/resources/application.yml
+----
+include::{sourceDir}/src/main/resources/application.yml[tag=jpa]
+----
+
+<1> Entities are scanned in the package `example.micronaut.domain`.

@@ -1,14 +1,4 @@
-Add the next snippet to `src/main/resources/application.yml`
-
-[source,yml]
-.src/main/resources/application.yml
-----
-include::{sourceDir}/src/main/resources/application.yml[tag=jpa]
-----
-
-<1> Entities are scanned in the package `example.micronaut.domain`.
-
-Create entities:
+Create the domain entities:
 
 [source,java]
 .src/main/java/example/micronaut/domain/Genre.java

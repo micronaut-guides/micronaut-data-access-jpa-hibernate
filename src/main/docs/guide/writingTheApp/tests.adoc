@@ -8,7 +8,7 @@ include::{sourceDir}/src/test/java/example/micronaut/GenreControllerTest.java[]
 
 <1> To run the application from a unit test you can use the http://docs.micronaut.io/latest/api/io/micronaut/runtime/server/EmbeddedServer.html[EmbeddedServer] interface.
 <2> Register a `HttpClient` bean in the application context and point it to the embedded server URL. The EmbeddedServer interface provides the URL of the server under test which runs on a random port.
-<3> Creating HTTP Requests is easy thanks to Micronaut’s fluid API.
+<3> Creating HTTP Requests is easy thanks to Micronaut's fluid API.
 <4> If you care just about the object in the response use `retrieve`.
 <5> Sometimes, receiving just the object is not enough and you need information about the response. In this case, instead of `retrieve` you should use the `exchange` method.
 

@@ -1,4 +1,4 @@
-Micronaut’s validation is built on with the standard framework – JSR 380, also known as Bean Validation 2.0.
+Micronaut's validation is built on with the standard framework – JSR 380, also known as Bean Validation 2.0.
 
 Hibernate Validator is a reference implementation of the validation API.
 
@@ -37,7 +37,7 @@ include::{sourceDir}/src/main/java/example/micronaut/genre/GenreController.java[
 <3> Constructor injection.
 <4> Maps a `GET` request to `/genres/{id}` which attempts to show a genre. This illustrates the use of a URL path variable. If the entity is not found 404 is returned.
 <5> Maps a `PUT` request to `/genres` which attempts to update a genre.
-<6> Add `@Valid` to any method parameter which requires validation. Use a POGO supplied as a JSON payload in the request to populate command.
+<6> Add `@Valid` to any method parameter which requires validation. Use a POJO supplied as a JSON payload in the request to populate command.
 <7> It is easy to add custom headers to the response.
 <8> Maps a `GET` request to `/genres` which returns a list of genres
 <9> Maps a `POST` request to `/genres` which attempts to save a genre.

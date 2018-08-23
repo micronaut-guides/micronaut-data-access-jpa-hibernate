@@ -22,10 +22,9 @@ public class GenreRepositoryImpl implements GenreRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // <3>
     public Optional<Genre> findById(Long id) {
         try {
-
             return Optional.of(entityManager
                     .createQuery("SELECT g FROM Genre g WHERE g.id = :id", Genre.class)
                     .setParameter("id", id)
@@ -37,7 +36,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional // <4>
     public Genre save(String name) {
         Genre genre = new Genre(name);
         entityManager.persist(genre);
@@ -65,5 +64,4 @@ public class GenreRepositoryImpl implements GenreRepository {
                 .setParameter("id", id)
                 .executeUpdate();
     }
-
 }

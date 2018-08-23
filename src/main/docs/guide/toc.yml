@@ -4,7 +4,7 @@ gettingStarted:
   solution: Solution
 writingTheApp:
   title: Writing the App
-  datasource: Configure Data Source
+  datasource: Configure Data Source and JPA
   domain: Domain
   repository: Repository Access
   controller: Controller
