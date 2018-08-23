@@ -43,12 +43,12 @@ public class GenreControllerTest {
     @Test
     public void testGenreCrudOperations() {
         HttpRequest request = HttpRequest.POST("/genres", new GenreSaveCommand("Microservices")); // <3>
-        HttpResponse response = client.toBlocking().exchange(request);
+        HttpResponse<Genre> response = client.toBlocking().exchange(request, Argument.of(Genre.class));
 
         assertEquals(HttpStatus.CREATED, response.getStatus());
 
-        Long id = entityId(response);
-        request = HttpRequest.GET("/genres/"+id);
+        Long id = response.getBody().get().getId();
+        request = HttpRequest.GET("/genres/" + id);
         Genre genre = client.toBlocking().retrieve(request, Genre.class); // <4>
 
         assertEquals("Microservices",  genre.getName());
@@ -58,9 +58,7 @@ public class GenreControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
 
-        id = entityId(response);
-
-        request = HttpRequest.GET("/genres/"+id);
+        request = HttpRequest.GET("/genres/" + id);
         genre = client.toBlocking().retrieve(request, Genre.class);
         assertEquals("Micro-services",  genre.getName());
 
@@ -73,18 +71,5 @@ public class GenreControllerTest {
         request = HttpRequest.DELETE("/genres/"+id);
         response = client.toBlocking().exchange(request);
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
-    }
-
-    Long entityId(HttpResponse response) {
-        String path = "/genres/";
-        String value = response.header(HttpHeaders.LOCATION);
-        if ( value == null) {
-            return null;
-        }
-        int index = value.indexOf(path);
-        if ( index != -1) {
-            return Long.valueOf(value.substring(index + path.length()));
-        }
-        return null;
     }
 }

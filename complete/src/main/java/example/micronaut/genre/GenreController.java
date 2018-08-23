@@ -47,7 +47,7 @@ public class GenreController {
     }
 
     @Post("/") // <10>
-    public HttpResponse save(@Body @Valid GenreSaveCommand cmd) {
+    public HttpResponse<Genre> save(@Body @Valid GenreSaveCommand cmd) {
         Genre genre = genreRepository.save(cmd.getName());
 
         return HttpResponse

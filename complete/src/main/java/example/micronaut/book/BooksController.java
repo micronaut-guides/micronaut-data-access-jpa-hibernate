@@ -64,7 +64,7 @@ public class BooksController {
     }
 
     @Post("/")
-    HttpResponse save(@Body @Valid BookSaveCommand cmd) {
+    HttpResponse<Book> save(@Body @Valid BookSaveCommand cmd) {
         Optional<Genre> genreOptional = genreRepository.findById(cmd.getGenreId());
         return genreOptional.map(genre -> {
             Book book = booksRepository.save(cmd.getIsbn(), cmd.getName(), genre);
