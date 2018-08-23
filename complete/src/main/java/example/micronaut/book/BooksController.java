@@ -5,7 +5,6 @@ import example.micronaut.domain.Genre;
 import example.micronaut.genre.GenreRepository;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Delete;
@@ -69,7 +68,9 @@ public class BooksController {
         Optional<Genre> genreOptional = genreRepository.findById(cmd.getGenreId());
         return genreOptional.map(genre -> {
             Book book = booksRepository.save(cmd.getIsbn(), cmd.getName(), genre);
-            return HttpResponse.created(location(book));
+            return HttpResponse
+                    .created(book)
+                    .headers(headers -> headers.location(location(book)));
         }).orElse(HttpResponse.badRequest());
     }
 
@@ -78,7 +79,7 @@ public class BooksController {
     }
 
     protected URI location(Long id) {
-        return URI.create("/books/"+id);
+        return URI.create("/books/" + id);
     }
 
 }

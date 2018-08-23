@@ -1,9 +1,5 @@
 package example.micronaut.genre;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
 import example.micronaut.domain.Genre;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
@@ -16,6 +12,8 @@ import io.micronaut.http.annotation.Put;
 import io.micronaut.validation.Validated;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 @Validated // <1>
 @Controller("/genres") // <2>
@@ -52,7 +50,9 @@ public class GenreController {
     public HttpResponse save(@Body @Valid GenreSaveCommand cmd) {
         Genre genre = genreRepository.save(cmd.getName());
 
-        return HttpResponse.created(location(genre));
+        return HttpResponse
+                .created(genre)
+                .headers(headers -> headers.location(location(genre.getId())));
     }
 
     @Delete("/{id}") // <10>
@@ -62,8 +62,9 @@ public class GenreController {
     }
 
     protected URI location(Long id) {
-        return URI.create("/genres/"+id);
+        return URI.create("/genres/" + id);
     }
+
     protected URI location(Genre genre) {
         return location(genre.getId());
     }
