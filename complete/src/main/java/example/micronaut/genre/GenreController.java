@@ -28,8 +28,10 @@ public class GenreController {
     }
 
     @Get("/{id}") // <4>
-    public Optional<Genre> show(Long id) {
-        return genreRepository.findById(id);
+    public Genre show(Long id) {
+        return genreRepository
+                .findById(id)
+                .orElse(null);
     }
 
     @Put("/") // <5>

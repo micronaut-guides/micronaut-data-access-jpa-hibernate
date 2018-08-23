@@ -52,8 +52,10 @@ public class BooksController {
     }
 
     @Get("/{id}")
-    Optional<Book> show(Long id) {
-        return booksRepository.findById(id);
+    Book show(Long id) {
+        return booksRepository
+                .findById(id)
+                .orElse(null);
     }
 
     @Delete("/{id}")
