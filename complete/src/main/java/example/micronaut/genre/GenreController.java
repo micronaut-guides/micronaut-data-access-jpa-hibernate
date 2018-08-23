@@ -29,24 +29,24 @@ public class GenreController {
     public Genre show(Long id) {
         return genreRepository
                 .findById(id)
-                .orElse(null);
+                .orElse(null); // <5>
     }
 
-    @Put("/") // <5>
-    public HttpResponse update(@Body @Valid GenreUpdateCommand command) { // <6>
+    @Put("/") // <6>
+    public HttpResponse update(@Body @Valid GenreUpdateCommand command) { // <7>
         int numberOfEntitiesUpdated = genreRepository.update(command.getId(), command.getName());
 
         return HttpResponse
                 .noContent()
-                .header(HttpHeaders.LOCATION, location(command.getId()).getPath()); // <7>
+                .header(HttpHeaders.LOCATION, location(command.getId()).getPath()); // <8>
     }
 
-    @Get("/") // <8>
+    @Get("/") // <9>
     public List<Genre> list() {
         return genreRepository.findAll();
     }
 
-    @Post("/") // <9>
+    @Post("/") // <10>
     public HttpResponse save(@Body @Valid GenreSaveCommand cmd) {
         Genre genre = genreRepository.save(cmd.getName());
 
@@ -55,7 +55,7 @@ public class GenreController {
                 .headers(headers -> headers.location(location(genre.getId())));
     }
 
-    @Delete("/{id}") // <10>
+    @Delete("/{id}") // <11>
     public HttpResponse delete(Long id) {
         genreRepository.deleteById(id);
         return HttpResponse.noContent();
