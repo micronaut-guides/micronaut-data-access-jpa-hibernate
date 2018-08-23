@@ -6,7 +6,6 @@ import io.micronaut.spring.tx.annotation.Transactional;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -24,15 +23,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     @Override
     @Transactional(readOnly = true) // <3>
     public Optional<Genre> findById(Long id) {
-        try {
-            return Optional.of(entityManager
-                    .createQuery("SELECT g FROM Genre g WHERE g.id = :id", Genre.class)
-                    .setParameter("id", id)
-                    .getSingleResult());
-
-        } catch(NoResultException e) {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(entityManager.find(Genre.class, id));
     }
 
     @Override

@@ -7,7 +7,6 @@ import io.micronaut.spring.tx.annotation.Transactional;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -30,18 +29,10 @@ public class BooksRepositoryImpl implements BooksRepository {
         return book;
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public Optional<Book> findById(Long id) {
-        try {
-            return Optional.of(entityManager
-                    .createQuery("SELECT b FROM Book b WHERE b.id = :id", Book.class)
-                    .setParameter("id", id)
-                    .getSingleResult());
-        } catch(NoResultException e) {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(entityManager.find(Book.class, id));
     }
 
     @Transactional(readOnly = true)
