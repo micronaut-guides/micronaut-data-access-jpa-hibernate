@@ -20,6 +20,11 @@ Define the data source in `src/main/resources/application.yml`.
 include::{sourceDir}/src/main/resources/application.yml[tag=datasource]
 ----
 
+NOTE: This way of defining the datasource properties means that we can externalize the configuration, for example for
+production environment, and also provide a default value for development. If the environment variables are not defined
+Micronaut will use the default values. +
+Also keep in mind that it is necessary to escape the `:` in the connection url.
+
 === JPA configuration
 
 Add the next snippet to `src/main/resources/application.yml` to configure JPA:

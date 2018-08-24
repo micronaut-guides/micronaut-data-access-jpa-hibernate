@@ -29,7 +29,7 @@ as follows:
 include::{sourceDir}/src/main/resources/application-postgresql.yml[tag=datasourcePostgresql]
 ----
 
-There are different options to activate this new configuration file:
+There are different options to use this new configuration file and activate the `postgresql` environment:
 
 
 [source,bash]
@@ -44,22 +44,22 @@ Or while running the application jar file:
 $ java -Dmicronaut.environments=postgresql -jar myapp.jar
 ----
 
+In both cases the output will be as follows and we can see that `postgresql` environment is active:
+
+[source,bash]
+----
+12:52:57.812 [main] INFO  i.m.context.env.DefaultEnvironment - Established active environments: [postgresql]
+12:52:58.594 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+...
+----
+
+
 WARNING: The problem with this approach is that the **production credentials** are included in both the application jar
  file and in the repository.
 
-To fix that problem, delete the file `application-postgresql.yml` and modify the existing `application.yml` with:
+To fix this problem, delete the file `application-postgresql.yml` and use the externalized configuration defined previously.
 
-[source,yml]
-.src/main/resources/application.yml
-----
-include::{sourceDir}/src/main/resources/application-postgresql.yml[tag=dataSourceExternal]
-----
-
-With this approach we define external configuration properties. If they are defined, then Micronaut will use them to
-configure your production database. If they don't exist Micronaut will use the default values, in this case, the H2
-database for development.
-
-There are different ways to define those properties:
+There are different ways to set those properties:
 
 - Environment variables:
 
@@ -71,17 +71,6 @@ $ export JDBC_PASSWORD=theSecretPassword
 $ export JDBC_DRIVER=org.postgresql.Driver
 
 $ java -jar myapp.jar
-----
-
-- JVM Arguments
-
-[source,bash]
-----
-$ java -Djdbc.url=jdbc:postgresql://localhost:5432/micronaut \
-       -Djdbc.user=dbuser \
-       -Djdbc.password=theSecretPassword \
-       -Djdbc.driver=org.postgresql.Driver \
-       -jar myapp.jar
 ----
 
 - Configuration file. Create a configuration file for production in the same directory as the jar run the application with:
