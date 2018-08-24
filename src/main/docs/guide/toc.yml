@@ -10,5 +10,6 @@ writingTheApp:
   controller: Controller
   tests: Tests
 runningTheApp: Running the app
+usingPostgresql: Using Postgresql
 nextSteps:
   title: Next Steps
