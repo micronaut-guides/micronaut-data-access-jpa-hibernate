@@ -1,0 +1,96 @@
+When running on production you want to use a real database instead of using H2. Let's explain how to use Postgres.
+
+After installing Docker, execute the following command to run a postgresql container:
+
+[source,bash]
+----
+docker run -it \
+    -p 5432:5432 \
+    -e POSTGRES_USER=dbuser \
+    -e POSTGRES_PASSWORD=theSecretPassword \
+    -e POSTGRES_DB=micronaut \
+    postgres:10.5-alpine
+----
+
+Add Postgresql driver dependency to `build.gradle`:
+
+[source,groovy]
+.build.gradle
+----
+include::{sourceDir}/build.gradle[tag=postgresql,indent=0]
+----
+
+Add application specific configuration for production. Create the file `application-postgresql.yml`
+as follows:
+
+[source,yml]
+.src/main/resources/application-postgresql.yml
+----
+include::{sourceDir}/src/main/resources/application-postgresql.yml[tag=datasourcePostgresql]
+----
+
+There are different options to activate this new configuration file:
+
+
+[source,bash]
+----
+$ MICRONAUT_ENVIRONMENTS=postgresql ./gradlew run
+----
+
+Or while running the application jar file:
+
+[source,bash]
+----
+$ java -Dmicronaut.environments=postgresql -jar myapp.jar
+----
+
+WARNING: The problem with this approach is that the **production credentials** are included in both the application jar
+ file and in the repository.
+
+To fix that problem, delete the file `application-postgresql.yml` and modify the existing `application.yml` with:
+
+[source,yml]
+.src/main/resources/application.yml
+----
+include::{sourceDir}/src/main/resources/application-postgresql.yml[tag=dataSourceExternal]
+----
+
+With this approach we define external configuration properties. If they are defined, then Micronaut will use them to
+configure your production database. If they don't exist Micronaut will use the default values, in this case, the H2
+database for development.
+
+There are different ways to define those properties:
+
+- Environment variables:
+
+[source,bash]
+----
+$ export JDBC_URL=jdbc:postgresql://localhost:5432/micronaut
+$ export JDBC_USER=dbuser
+$ export JDBC_PASSWORD=theSecretPassword
+$ export JDBC_DRIVER=org.postgresql.Driver
+
+$ java -jar myapp.jar
+----
+
+- JVM Arguments
+
+[source,bash]
+----
+$ java -Djdbc.url=jdbc:postgresql://localhost:5432/micronaut \
+       -Djdbc.user=dbuser \
+       -Djdbc.password=theSecretPassword \
+       -Djdbc.driver=org.postgresql.Driver \
+       -jar myapp.jar
+----
+
+- Configuration file. Create a configuration file for production in the same directory as the jar run the application with:
+
+[source,bash]
+----
+$ java -Dmicronaut.config.files=production-config-file.yml \
+       -jar myapp.jar
+----
+
+For more information please take a look at Micronaut's documentation about
+https://docs.micronaut.io/snapshot/guide/index.html#config[Application Configuration].
