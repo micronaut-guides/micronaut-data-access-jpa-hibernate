@@ -1,9 +1,12 @@
 micronaut:
     application:
         name: complete
-#Uncomment to set server port
-#    server:
-#        port: 8080
+    server:
+        port: 8080
+#tag::application[]
+application:
+    max: 50
+#end::application[]
 #tag::datasource[]
 datasources:
     default:

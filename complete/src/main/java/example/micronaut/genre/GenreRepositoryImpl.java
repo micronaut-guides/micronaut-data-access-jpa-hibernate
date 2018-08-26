@@ -1,5 +1,7 @@
 package example.micronaut.genre;
 
+import example.micronaut.PaginationArguments;
+import example.micronaut.SortingArguments;
 import example.micronaut.domain.Genre;
 import io.micronaut.configuration.hibernate.jpa.scope.CurrentSession;
 import io.micronaut.spring.tx.annotation.Transactional;
@@ -7,6 +9,8 @@ import io.micronaut.spring.tx.annotation.Transactional;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,11 +44,26 @@ public class GenreRepositoryImpl implements GenreRepository {
         findById(id).ifPresent(genre -> entityManager.remove(genre));
     }
 
+    private final static List<String> VALID_PROPERTY_NAMES = Arrays.asList("id", "name");
+
     @Transactional(readOnly = true)
-    public List<Genre> findAll() {
-        return entityManager
-                .createQuery("SELECT g FROM Genre g", Genre.class)
-                .getResultList();
+    public List<Genre> findAll(PaginationArguments paginationArgs, SortingArguments sortingArgs) {
+        String qlString = "SELECT g FROM Genre as g";
+        if (sortingArgs != null) {
+            if (sortingArgs.getOrder() != null && VALID_PROPERTY_NAMES.contains(sortingArgs.getSort())) {
+                qlString += " ORDER BY g." + sortingArgs.getSort() + " " + sortingArgs.getOrder().toString().toLowerCase();
+            }
+        }
+        TypedQuery query = entityManager.createQuery(qlString, Genre.class);
+        if (paginationArgs != null) {
+            if (paginationArgs.getMax() != null) {
+                query.setMaxResults(paginationArgs.getMax());
+            }
+            if (paginationArgs.getOffset() != null) {
+                query.setFirstResult(paginationArgs.getOffset());
+            }
+        }
+        return query.getResultList();
     }
 
     @Override

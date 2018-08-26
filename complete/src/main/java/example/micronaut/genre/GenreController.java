@@ -1,5 +1,9 @@
 package example.micronaut.genre;
 
+import example.micronaut.ApplicationConfiguration;
+import example.micronaut.PaginationArguments;
+import example.micronaut.SortingArguments;
+import example.micronaut.SortingOrder;
 import example.micronaut.domain.Genre;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
@@ -11,6 +15,7 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
 import io.micronaut.validation.Validated;
 
+import javax.annotation.Nullable;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -21,8 +26,12 @@ public class GenreController {
 
     protected final GenreRepository genreRepository;
 
-    public GenreController(GenreRepository genreRepository) { // <3>
+    protected final ApplicationConfiguration applicationConfiguration;
+
+    public GenreController(GenreRepository genreRepository,
+                           ApplicationConfiguration applicationConfiguration) { // <3>
         this.genreRepository = genreRepository;
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     @Get("/{id}") // <4>
@@ -41,9 +50,16 @@ public class GenreController {
                 .header(HttpHeaders.LOCATION, location(command.getId()).getPath()); // <8>
     }
 
-    @Get("/") // <9>
-    public List<Genre> list() {
-        return genreRepository.findAll();
+    @Get(value = "/") // <9>
+    public List<Genre> list(@Nullable Integer offset,
+                            @Nullable Integer max,
+                            @Nullable String sort,
+                            @Nullable String order) {
+        PaginationArguments paginationArguments = new PaginationArguments(offset != null ? offset : 0,
+                max != null ? max : applicationConfiguration.getMax());
+        SortingArguments sortingArguments = sort != null ? new SortingArguments(sort, SortingOrder.of(order)) : null;
+
+        return genreRepository.findAll(paginationArguments, sortingArguments);
     }
 
     @Post("/") // <10>

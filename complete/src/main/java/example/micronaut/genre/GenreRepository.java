@@ -1,5 +1,7 @@
 package example.micronaut.genre;
 
+import example.micronaut.PaginationArguments;
+import example.micronaut.SortingArguments;
 import example.micronaut.domain.Genre;
 
 import java.util.List;
@@ -13,7 +15,7 @@ public interface GenreRepository {
 
     void deleteById(Long id);
 
-    List<Genre> findAll();
+    List<Genre> findAll(PaginationArguments paginationArgs, SortingArguments sortingArgs);
 
     int update(Long id, String name);
 }

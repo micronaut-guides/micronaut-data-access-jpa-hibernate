@@ -1,6 +1,5 @@
 include::{commondir}/common-validation.adoc[]
 
-
 Create two classes to encapsulate Save and Update operations:
 
 [source,java]
@@ -13,6 +12,41 @@ include::{sourceDir}/src/main/java/example/micronaut/genre/GenreSaveCommand.java
 .src/main/java/example/micronaut/genre/GenreUpdateCommand.java
 ----
 include::{sourceDir}/src/main/java/example/micronaut/genre/GenreUpdateCommand.java[]
+----
+
+Create several POJOs to encapsulate Sorting and Pagination:
+
+
+[source,java]
+.src/main/java/example/micronaut/SortingOrder.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/SortingOrder.java[]
+----
+
+[source,java]
+.src/main/java/example/micronaut/SortingArguments.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/SortingArguments.java[]
+----
+
+[source,java]
+.src/main/java/example/micronaut/PaginationArguments.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/PaginationArguments.java[]
+----
+
+Create a `ConfigurationProperties` object to encapsulate the configuration of the default `max` value.
+
+[source,java]
+.src/main/java/example/micronaut/ApplicationConfiguration.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/ApplicationConfiguration.java[]
+----
+
+[source,java]
+.src/main/java/example/micronaut/ApplicationConfigurationProperties.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/ApplicationConfigurationProperties.java[]
 ----
 
 Create `GenreController`, a controller which exposes a resource with the common CRUD operations:
@@ -31,6 +65,7 @@ include::{sourceDir}/src/main/java/example/micronaut/genre/GenreController.java[
 <6> Maps a `PUT` request to `/genres` which attempts to update a genre.
 <7> Add `@Valid` to any method parameter which requires validation. Use a POJO supplied as a JSON payload in the request to populate command.
 <8> It is easy to add custom headers to the response.
-<9> Maps a `GET` request to `/genres` which returns a list of genres
+<9> Maps a `GET` request to `/genres` which returns a list of genres. This mapping illustrates optional URL parameters.
 <10> Maps a `POST` request to `/genres` which attempts to save a genre.
 <11> Maps a `DELETE` request to `/genres/{id}` which attempts to remove a genre. This illustrates the use of a URL path variable.
+
