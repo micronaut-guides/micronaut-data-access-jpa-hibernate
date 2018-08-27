@@ -1,9 +1,7 @@
-package example.micronaut;
+package example.micronaut.book;
 
 import static org.junit.Assert.assertEquals;
 
-import example.micronaut.book.BookSaveCommand;
-import example.micronaut.book.BookUpdateCommand;
 import example.micronaut.domain.Book;
 import example.micronaut.genre.GenreSaveCommand;
 import io.micronaut.context.ApplicationContext;
@@ -28,7 +26,10 @@ public class BookControllerTest {
 
     @BeforeClass
     public static void setupServer() {
-        server = ApplicationContext.run(EmbeddedServer.class);
+        server = ApplicationContext
+                .build()
+                .packages("example.micronaut.domain")
+                .run(EmbeddedServer.class);
         client = server.getApplicationContext().createBean(HttpClient.class, server.getURL());
     }
 
