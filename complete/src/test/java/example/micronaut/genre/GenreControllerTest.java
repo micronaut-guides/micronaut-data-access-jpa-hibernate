@@ -1,10 +1,8 @@
-package example.micronaut;
+package example.micronaut.genre;
 
 import static org.junit.Assert.assertEquals;
 
 import example.micronaut.domain.Genre;
-import example.micronaut.genre.GenreSaveCommand;
-import example.micronaut.genre.GenreUpdateCommand;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpHeaders;
@@ -27,7 +25,10 @@ public class GenreControllerTest {
 
     @BeforeClass
     public static void setupServer() {
-        server = ApplicationContext.run(EmbeddedServer.class); // <1>
+        server = ApplicationContext
+                .build()
+                .packages("example.micronaut.domain") // <3>
+                .run(EmbeddedServer.class); // <1>
         client = server.getApplicationContext().createBean(HttpClient.class, server.getURL()); // <2>
     }
 
@@ -46,13 +47,13 @@ public class GenreControllerTest {
 
         List<Long> genreIds = new ArrayList<>();
 
-        HttpRequest request = HttpRequest.POST("/genres", new GenreSaveCommand("DevOps")); // <3>
+        HttpRequest request = HttpRequest.POST("/genres", new GenreSaveCommand("DevOps")); // <4>
         HttpResponse response = client.toBlocking().exchange(request);
         genreIds.add(entityId(response));
 
         assertEquals(HttpStatus.CREATED, response.getStatus());
 
-        request = HttpRequest.POST("/genres", new GenreSaveCommand("Microservices")); // <3>
+        request = HttpRequest.POST("/genres", new GenreSaveCommand("Microservices")); // <4>
         response = client.toBlocking().exchange(request);
 
         assertEquals(HttpStatus.CREATED, response.getStatus());
@@ -61,12 +62,12 @@ public class GenreControllerTest {
         genreIds.add(id);
         request = HttpRequest.GET("/genres/"+id);
 
-        Genre genre = client.toBlocking().retrieve(request, Genre.class); // <4>
+        Genre genre = client.toBlocking().retrieve(request, Genre.class); // <5>
 
         assertEquals("Microservices", genre.getName());
 
         request = HttpRequest.PUT("/genres", new GenreUpdateCommand(id, "Micro-services"));
-        response = client.toBlocking().exchange(request);  // <5>
+        response = client.toBlocking().exchange(request);  // <6>
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
 
