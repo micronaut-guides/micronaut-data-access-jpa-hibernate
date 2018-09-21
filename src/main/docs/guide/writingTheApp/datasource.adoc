@@ -23,7 +23,7 @@ include::{sourceDir}/src/main/resources/application.yml[tag=datasource]
 NOTE: This way of defining the datasource properties means that we can externalize the configuration, for example for
 production environment, and also provide a default value for development. If the environment variables are not defined
 Micronaut will use the default values. +
-Also keep in mind that it is necessary to escape the `:` in the connection url using back ticks.
+Also keep in mind that it is necessary to escape the `:` in the connection url using back ticks ```.
 
 === JPA configuration
 
