@@ -2,6 +2,8 @@ gettingStarted:
   title: Getting Started
   requirements: What you will need
   solution: Solution
+usingSnapshotVersion:
+  title: Using Snapshot Version
 writingTheApp:
   title: Writing the App
   datasource: Configure Data Source and JPA
