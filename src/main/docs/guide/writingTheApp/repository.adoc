@@ -18,4 +18,4 @@ include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepositoryImpl.j
 <2> Inject easily an `EntityManager`.
 <3> All database access needs to be wrapped inside a transaccion, we use Micronaut's `@Transactional`. As the method
 only reads data from the database, configure it as `readOnly = true`.
-<4> As this methods modifies the database, define `@Transactional` without setting `readOnly`, which, by default is `false`.
+<4> This method modifies the database, define `@Transactional` without setting `readOnly`, which, by default is `false`.
