@@ -5,3 +5,11 @@ Create the domain entities:
 ----
 include::{sourceDir}/src/main/java/example/micronaut/domain/Genre.java[]
 ----
+
+The previous domain has a `OneToMany` relationship with the domain `Book`.
+
+[source,java]
+.src/main/java/example/micronaut/domain/Book.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/domain/Book.java[]
+----
