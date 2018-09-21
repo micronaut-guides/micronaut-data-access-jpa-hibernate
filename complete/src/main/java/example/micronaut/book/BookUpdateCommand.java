@@ -9,11 +9,9 @@ public class BookUpdateCommand {
     @NotNull
     Long id;
 
-    @NotNull
     @NotBlank
     String name;
 
-    @NotNull
     @NotBlank
     String isbn;
 

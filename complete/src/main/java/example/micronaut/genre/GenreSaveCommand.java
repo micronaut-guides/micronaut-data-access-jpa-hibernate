@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class GenreSaveCommand {
 
-    @NotNull
     @NotBlank
     private String name;
 

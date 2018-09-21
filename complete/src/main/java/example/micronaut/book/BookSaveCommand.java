@@ -6,11 +6,9 @@ import java.util.Objects;
 
 public class BookSaveCommand {
 
-    @NotNull
     @NotBlank
     String name;
 
-    @NotNull
     @NotBlank
     String isbn;
 
