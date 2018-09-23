@@ -50,6 +50,13 @@ public class GenreControllerTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
+    public void supplyAnInvalidOrderTriggersValidationFailure() {
+        thrown.expect(HttpClientResponseException.class);
+        thrown.expect(hasProperty("response", hasProperty("status", is(HttpStatus.BAD_REQUEST))));
+        client.toBlocking().exchange(HttpRequest.GET("/genres/list?order=foo"));
+    }
+
+    @Test
     public void testFindNonExistingGenreReturns404() {
         thrown.expect(HttpClientResponseException.class);
         thrown.expect(hasProperty("response", hasProperty("status", is(HttpStatus.NOT_FOUND))));

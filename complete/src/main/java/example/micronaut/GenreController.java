@@ -42,7 +42,7 @@ public class GenreController {
     }
 
     @Get(value = "/list{?args*}") // <9>
-    public List<Genre> list(SortingAndOrderArguments args) {
+    public List<Genre> list(@Valid SortingAndOrderArguments args) {
         return genreRepository.findAll(args);
     }
 
