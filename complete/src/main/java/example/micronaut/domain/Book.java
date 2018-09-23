@@ -70,11 +70,17 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", isbn='" + isbn + '\'' +
-            ", genre=" + genre +
-            '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Book{");
+        sb.append("id=");
+        sb.append(id);
+        sb.append(", name='");
+        sb.append(name);
+        sb.append("', isbn='");
+        sb.append(isbn);
+        sb.append("', genre='");
+        sb.append(genre);
+        sb.append("'}");
+        return sb.toString();
     }
 }
