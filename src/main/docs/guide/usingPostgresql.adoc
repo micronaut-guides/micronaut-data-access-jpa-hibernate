@@ -51,7 +51,7 @@ Connect to your postgresql database and you will see both `genre` and `book` tab
 
 image::datagrip.png[]
 
-Save one genre and your `genre` table will contain now an entry.
+Save one genre and your `genre` table will now contain an entry.
 
 [source, bash]
 ----
