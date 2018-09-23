@@ -1,8 +1,0 @@
-#tag::datasourcePostgresql[]
-datasources:
-    default:
-        url: jdbc:postgresql://localhost:5432/micronaut
-        username: dbuser
-        password: theSecretPassword
-        driverClassName: org.postgresql.Driver
-#end::datasourcePostgresql[]
