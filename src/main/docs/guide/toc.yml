@@ -8,6 +8,7 @@ writingTheApp:
   title: Writing the App
   datasource: Configure Data Source and JPA
   domain: Domain
+  appConfiguration: Application Configuration
   repository: Repository Access
   controller: Controller
   tests: Tests

@@ -1,0 +1,28 @@
+Create an interface to encapsulate the application configuration settings:
+
+[source,java]
+.src/main/java/example/micronaut/ApplicationConfiguration.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/ApplicationConfiguration.java[]
+----
+
+In Micronaut, like Spring Boot and Grails, you can create type safe configuration by creating classes that are annotated with https://docs.micronaut.io/snapshot/guide/index.html#configurationProperties[@ConfigurationProperties].
+
+Create a `ApplicationConfigurationProperties`:
+
+[source,java]
+.src/main/java/example/micronaut/ApplicationConfigurationProperties.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/ApplicationConfigurationProperties.java[]
+----
+
+<1> @ConfigurationProperties` annotation takes a configuration prefix.
+
+
+You can override `max` if you add to your `src/main/resources/application.yml`:
+
+[source, yaml]
+.src/main/resources/application.yml
+----
+include::{sourceDir}/src/main/resources/application.yml[tag=application]
+----
