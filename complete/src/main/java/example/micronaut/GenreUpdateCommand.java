@@ -1,4 +1,4 @@
-package example.micronaut.genre;
+package example.micronaut;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -8,7 +8,6 @@ public class GenreUpdateCommand {
     @NotNull
     private Long id;
 
-    @NotNull
     @NotBlank
     private String name;
 
@@ -33,19 +32,5 @@ public class GenreUpdateCommand {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GenreUpdateCommand that = (GenreUpdateCommand) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
     }
 }

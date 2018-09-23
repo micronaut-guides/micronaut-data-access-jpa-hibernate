@@ -1,1 +1,7 @@
+Create the microservice:
+
+`mn create-app example.micronaut.complete`
+
+The previous command creates a folder named `complete` and a Micronaut app inside it with default package: `example.micronaut`
+
 include::{commondir}/common-annotationprocessors.adoc[]

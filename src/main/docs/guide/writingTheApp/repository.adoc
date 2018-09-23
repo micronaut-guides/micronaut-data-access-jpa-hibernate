@@ -1,17 +1,17 @@
 Create an interface to define the operations to access the database:
 
 [source,java]
-.src/main/java/example/micronaut/genre/GenreRepository.java
+.src/main/java/example/micronaut/GenreRepository.java
 ----
-include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepository.java[]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepository.java[]
 ----
 
 And the implementation:
 
 [source,java]
-.src/main/java/example/micronaut/genre/GenreRepositoryImpl.java
+.src/main/java/example/micronaut/GenreRepositoryImpl.java
 ----
-include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepositoryImpl.java[]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[]
 ----
 
 <1> Use `javax.inject.Singleton` to designate a class a a singleton.
@@ -19,3 +19,6 @@ include::{sourceDir}/src/main/java/example/micronaut/genre/GenreRepositoryImpl.j
 <3> All database access needs to be wrapped inside a transaccion, we use Micronaut's `@Transactional`. As the method
 only reads data from the database, configure it as `readOnly = true`.
 <4> This method modifies the database, define `@Transactional` without setting `readOnly`, which, by default is `false`.
+
+You should use Micronaut's version of `@Transactional`. See  https://docs.micronaut.io/snapshot/guide/index.html#springAop[Bridging Spring AOP] section of the docs.
+
