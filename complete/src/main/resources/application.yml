@@ -1,8 +1,6 @@
 micronaut:
     application:
         name: complete
-    server:
-        port: 8080
 #tag::application[]
 application:
     max: 50
