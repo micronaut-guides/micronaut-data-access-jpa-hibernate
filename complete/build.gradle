@@ -54,7 +54,7 @@ dependencies {
     //tag::jpa[]
     compile "io.micronaut.configuration:micronaut-hibernate-jpa" // <1>
     compile "io.micronaut.configuration:micronaut-jdbc-hikari" // <2>
-    runtime "com.h2database:h2:1.4.196" // <3>
+    runtime "com.h2database:h2" // <3>
     //end::jpa[]
 
     //tag::postgresql[]
