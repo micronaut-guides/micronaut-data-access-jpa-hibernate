@@ -1,26 +1,26 @@
 micronaut:
-    application:
-        name: complete
+  application:
+    name: complete
 #tag::application[]
 application:
-    max: 50
+  max: 50
 #end::application[]
 #tag::datasource[]
 datasources:
-    default:
-        url: ${JDBC_URL:`jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
-        username: ${JDBC_USER:sa}
-        password: ${JDBC_PASSWORD:""}
-        driverClassName: ${JDBC_DRIVER:org.h2.Driver}
+  default:
+    url: ${JDBC_URL:`jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
+    username: ${JDBC_USER:sa}
+    password: ${JDBC_PASSWORD:""}
+    driverClassName: ${JDBC_DRIVER:org.h2.Driver}
 #end::datasource[]
 #tag::jpa[]
 jpa:
-    default:
-        packages-to-scan:
-            - 'example.micronaut.domain' # <1>
-        properties:
-            hibernate:
-                hbm2ddl:
-                    auto: update
-                show_sql: true
+  default:
+    packages-to-scan:
+      - 'example.micronaut.domain' # <1>
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
 #end::jpa[]
