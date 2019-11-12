@@ -69,3 +69,5 @@ shadowJar {
 
 run.classpath += configurations.developmentOnly
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+
+apply from: "${rootProject.projectDir}/gradle/testVerbose.gradle"
