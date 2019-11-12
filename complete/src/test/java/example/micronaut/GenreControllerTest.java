@@ -1,66 +1,50 @@
 package example.micronaut;
 
-import static org.junit.Assert.assertEquals;
-
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
 import example.micronaut.domain.Genre;
-import io.micronaut.context.ApplicationContext;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
-import io.micronaut.runtime.server.EmbeddedServer;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import io.micronaut.test.annotation.MicronautTest;
+import org.junit.jupiter.api.Test;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@MicronautTest // <1>
 public class GenreControllerTest {
 
-    private static EmbeddedServer server; // <1>
-    private static HttpClient client; // <2>
-
-    @BeforeClass
-    public static void setupServer() {
-        server = ApplicationContext
-                .build()
-                .run(EmbeddedServer.class); // <1>
-        client = server.getApplicationContext().createBean(HttpClient.class, server.getURL()); // <2>
-    }
-
-    @AfterClass
-    public static void stopServer() {
-        if (server != null) {
-            server.stop();
-        }
-        if (client != null) {
-            client.stop();
-        }
-    }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    @Inject
+    @Client("/")
+    HttpClient client; // <2>
 
     @Test
     public void supplyAnInvalidOrderTriggersValidationFailure() {
-        thrown.expect(HttpClientResponseException.class);
-        thrown.expect(hasProperty("response", hasProperty("status", is(HttpStatus.BAD_REQUEST))));
-        client.toBlocking().exchange(HttpRequest.GET("/genres/list?order=foo"));
+        HttpClientResponseException thrown = assertThrows(HttpClientResponseException.class, () -> {
+            client.toBlocking().exchange(HttpRequest.GET("/genres/list?order=foo"));
+        });
+
+        assertNotNull(thrown.getResponse());
+        assertEquals(HttpStatus.BAD_REQUEST, thrown.getStatus());
     }
 
     @Test
     public void testFindNonExistingGenreReturns404() {
-        thrown.expect(HttpClientResponseException.class);
-        thrown.expect(hasProperty("response", hasProperty("status", is(HttpStatus.NOT_FOUND))));
-        HttpResponse response = client.toBlocking().exchange(HttpRequest.GET("/genres/99"));
+        HttpClientResponseException thrown = assertThrows(HttpClientResponseException.class, () -> {
+            client.toBlocking().exchange(HttpRequest.GET("/genres/99"));
+        });
+
+        assertNotNull(thrown.getResponse());
+        assertEquals(HttpStatus.NOT_FOUND, thrown.getStatus());
     }
 
     @Test
@@ -81,7 +65,7 @@ public class GenreControllerTest {
 
         Long id = entityId(response);
         genreIds.add(id);
-        request = HttpRequest.GET("/genres/"+id);
+        request = HttpRequest.GET("/genres/" + id);
 
         Genre genre = client.toBlocking().retrieve(request, Genre.class); // <4>
 
@@ -120,7 +104,7 @@ public class GenreControllerTest {
 
         // cleanup:
         for (Long genreId : genreIds) {
-            request = HttpRequest.DELETE("/genres/"+genreId);
+            request = HttpRequest.DELETE("/genres/" + genreId);
             response = client.toBlocking().exchange(request);
             assertEquals(HttpStatus.NO_CONTENT, response.getStatus());
         }
@@ -129,11 +113,11 @@ public class GenreControllerTest {
     protected Long entityId(HttpResponse response) {
         String path = "/genres/";
         String value = response.header(HttpHeaders.LOCATION);
-        if ( value == null) {
+        if (value == null) {
             return null;
         }
         int index = value.indexOf(path);
-        if ( index != -1) {
+        if (index != -1) {
             return Long.valueOf(value.substring(index + path.length()));
         }
         return null;
