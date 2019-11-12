@@ -1,9 +1,11 @@
 package example.micronaut;
 
+import io.micronaut.core.annotation.Introspected;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
+@Introspected
 public class GenreUpdateCommand {
     @NotNull
     private Long id;

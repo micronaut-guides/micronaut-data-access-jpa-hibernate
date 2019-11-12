@@ -7,6 +7,7 @@ Create two classes to encapsulate Save and Update operations:
 ----
 include::{sourceDir}/src/main/java/example/micronaut/GenreSaveCommand.java[]
 ----
+<1> Annotate the class with `@Introspected` to generate the Bean Metainformation at compile time.
 
 [source,java]
 .src/main/java/example/micronaut/GenreUpdateCommand.java
