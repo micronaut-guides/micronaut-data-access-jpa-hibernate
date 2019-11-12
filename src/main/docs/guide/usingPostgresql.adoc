@@ -4,12 +4,12 @@ After installing Docker, execute the following command to run a postgresql conta
 
 [source,bash]
 ----
-docker run -it \
+docker run -it --rm \
     -p 5432:5432 \
     -e POSTGRES_USER=dbuser \
     -e POSTGRES_PASSWORD=theSecretPassword \
     -e POSTGRES_DB=micronaut \
-    postgres:10.5-alpine
+    postgres:11.5-alpine
 ----
 
 Add Postgresql driver dependency to `build.gradle`:
@@ -43,7 +43,7 @@ If you take a close look to the output, you can see that the app uses postgresql
 ----
 ..
 ...
-08:40:02.746 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL95Dialect
+08:40:02.746 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
 ....
 ----
 
