@@ -1,4 +1,4 @@
-include::{commondir}/common-validation.adoc[]
+include::{commondir}/common-validation.adoc[indent=0]
 
 Create two classes to encapsulate Save and Update operations:
 
