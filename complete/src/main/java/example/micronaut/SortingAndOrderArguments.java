@@ -32,7 +32,7 @@ public class SortingAndOrderArguments {
     }
 
     public Optional<Integer> getOffset() {
-        if(offset == null) {
+        if (offset == null) {
             return Optional.empty();
         }
         return Optional.of(offset);
@@ -43,7 +43,7 @@ public class SortingAndOrderArguments {
     }
 
     public Optional<Integer> getMax() {
-        if(max == null) {
+        if (max == null) {
             return Optional.empty();
         }
         return Optional.of(max);
@@ -54,7 +54,7 @@ public class SortingAndOrderArguments {
     }
 
     public Optional<String> getSort() {
-        if(sort == null) {
+        if (sort == null) {
             return Optional.empty();
         }
         return Optional.of(sort);
@@ -65,7 +65,7 @@ public class SortingAndOrderArguments {
     }
 
     public Optional<String> getOrder() {
-        if(order == null) {
+        if (order == null) {
             return Optional.empty();
         }
         return Optional.of(order);
