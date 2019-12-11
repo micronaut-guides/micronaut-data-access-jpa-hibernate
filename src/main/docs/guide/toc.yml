@@ -14,3 +14,5 @@ runningTheApp: Running the app
 usingPostgresql: Using Postgresql
 nextSteps:
   title: Next Steps
+help:
+  title: Help with Micronaut  
