@@ -1,0 +1,91 @@
+You will see an exception generating the native image.
+
+[source,bash]
+----
+$ native-image --no-server -cp build/libs/complete-0.1-all.jar
+[micronautguide:17960]    classlist:   9,021.36 ms
+[micronautguide:17960]        (cap):   1,840.01 ms
+[micronautguide:17960]        setup:   2,880.23 ms
+[micronautguide:17960]     analysis:  32,998.65 ms
+Error: Classes that should be initialized at run time got initialized during image building:
+ org.h2.Driver was unintentionally initialized at build time. To see why org.h2.Driver got initialized use -H:+TraceClassInitialization
+org.springframework.jdbc.datasource.ConnectionProxy was unintentionally initialized at build time. To see why org.springframework.jdbc.datasource.ConnectionProxy got initialized use -H:+TraceClassInitialization
+
+----
+
+We need to provide a reflection configuration file for https://www.h2database.com/html/main.html[H2].
+
+Fortunately, GraalVM native image module provides a tracing agent to simplify GraalVM Native Image configuration.
+
+Create folder to save the configuration files
+
+[source, bash]
+----
+$ mkdir config-files
+----
+
+Stop the native image and run the app with the tracing agent.
+
+[source, bash]
+----
+$ java -jar  -agentlib:native-image-agent=config-output-dir=config-files build/libs/complete-0.1-all.jar
+$ 13:24:58.938 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 1185ms. Server Running: http://localhost:8080
+----
+
+Once the app starts, run a curl request:
+
+[source, bash]
+----
+ % curl -X "POST" "http://localhost:8080/genres" -H 'Content-Type: application/json; charset=utf-8' -d $'{"name": "DevOps"}'
+   {"id":1,"name":"DevOps"}
+----
+
+Stop the app and inspect the folder `config-files`. Several files have been created:
+
+[source, bash]
+----
+jni-config.json
+proxy-config.json
+reflect-config.json
+resource-config.json
+----
+
+Copy entries from the file `reflect-config.json`, which match the package `org.h2`, to a new file named `src/main/graal/reflect.json`.
+
+The file will look like:
+
+[source, json]
+.src/main/graal/reflect.json
+----
+include::{sourcedir}/src/main/graal/reflect.json[]
+----
+
+TIP: `src/main/graal/reflect.json` will be automatically picked up by Micronaut Graal annotation processor.
+
+Generate the native image again:
+
+[source,bash]
+----
+$ ./gradlew clean
+$ ./gradlew assemble
+$ native-image --no-server -cp build/libs/complete-0.1-all.jar
+----
+
+Run the native image:
+
+[source,bash]
+----
+$ ./micronautguide
+13:38:43.134 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 19ms. Server Running: http://localhost:8080
+----
+
+Now, the curl requests with success
+
+
+[source, bash]
+----
+  % curl -X "POST" "http://localhost:8080/genres" -H 'Content-Type: application/json; charset=utf-8' -d $'{"name": "DevOps"}'
+    {"id":1,"name":"DevOps"}
+  % curl "http://localhost:8080/genres"
+
+----

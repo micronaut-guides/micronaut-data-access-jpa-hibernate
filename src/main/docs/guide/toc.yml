@@ -11,6 +11,12 @@ writingTheApp:
   controller: Controller
   tests: Tests
 runningTheApp: Running the app
+graal:
+  title: Generate a Micronaut app's Native Image with GraalVM
+  graalchanges: Micronaut + GraalVM changes
+  graalnativeimage: Native Image generation
+  graalreflectjson: Provide Reflection Config
+  graaldocker: Native Image generation with Docker
 usingPostgresql: Using Postgresql
 nextSteps:
   title: Next Steps

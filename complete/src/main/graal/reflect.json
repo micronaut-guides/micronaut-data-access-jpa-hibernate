@@ -1,0 +1,30 @@
+[
+  {
+    "name":"org.h2.Driver",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"org.h2.engine.Constants",
+    "fields":[
+      {"name":"BUILD_ID"},
+      {"name":"VERSION_MAJOR"},
+      {"name":"VERSION_MINOR"}
+    ]
+  },
+  {
+    "name":"org.h2.engine.Engine",
+    "methods":[{"name":"getInstance","parameterTypes":[] }]
+  },
+  {
+    "name":"org.h2.jdbc.JdbcConnection",
+    "methods":[{"name":"getSchema","parameterTypes":[] }]
+  },
+  {
+    "name":"org.h2.jdbc.JdbcLob",
+    "methods":[{"name":"free","parameterTypes":[] }]
+  },
+  {
+    "name":"org.h2.mvstore.db.MVTableEngine",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  }
+]
