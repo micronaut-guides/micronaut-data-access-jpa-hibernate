@@ -44,9 +44,11 @@ dependencies {
     runtime "com.h2database:h2" // <3>
     //end::jpa[]
 
+    if (System.getenv('JDBC_DRIVER') == 'org.postgresql.Driver') {
     //tag::postgresql[]
     runtime 'org.postgresql:postgresql:42.2.4'
     //end::postgresql[]
+    }
 
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
