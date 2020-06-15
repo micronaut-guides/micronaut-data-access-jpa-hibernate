@@ -11,14 +11,31 @@ And the implementation:
 [source,java]
 .src/main/java/example/micronaut/GenreRepositoryImpl.java
 ----
-include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="package"]
+
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="import"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="importContent"]
+
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="clazz"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="clazzContent"]
+
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="findById"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="findByIdContent"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="save"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="saveContent"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="deleteById"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="deleteByIdContent"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="findAll"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="findAllContent"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="update"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="updateContent"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="saveWithException"]
+include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="saveWithExceptionContent"]
 ----
 
 <1> Use `javax.inject.Singleton` to designate a class a a singleton.
 <2> Inject easily an `EntityManager`.
-<3> All database access needs to be wrapped inside a transaction, we use Micronaut's `@Transactional`. As the method
+<3> All database access needs to be wrapped inside a transaction, we use Micronaut's `@TransactionalAdvice`. As the method
 only reads data from the database, configure it as `readOnly = true`.
-<4> This method modifies the database, define `@Transactional` without setting `readOnly`, which, by default is `false`.
-
-You should use Micronaut's version of `@Transactional`. See  https://docs.micronaut.io/snapshot/guide/index.html#springAop[Bridging Spring AOP] section of the docs.
+<4> This method modifies the database, define `@TransactionalAdvice` without setting `readOnly`, which, by default is `false`.
 

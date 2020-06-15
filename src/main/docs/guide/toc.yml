@@ -8,6 +8,10 @@ writingTheApp:
   domain: Domain
   appConfiguration: Application Configuration
   repository: Repository Access
+  transactional:
+    title: Micronaut Transactional Advice
+    javaxtransactional: Java EE 7 javax.transaction.Transactional
+    springtx: Spring Transaction Management
   controller: Controller
   tests: Tests
 runningTheApp: Running the app
