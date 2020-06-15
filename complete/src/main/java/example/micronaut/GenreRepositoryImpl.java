@@ -36,7 +36,6 @@ public class GenreRepositoryImpl implements GenreRepository {
 //end::clazzContent[]
 //tag::findById[]
     @ReadOnly  // <3>
-    @Transactional
     public Optional<Genre> findById(@NotNull Long id) {
 //end::findById[]
 //tag::findByIdContent[]
@@ -70,7 +69,6 @@ public class GenreRepositoryImpl implements GenreRepository {
 //end::deleteByIdContent[]
 //tag::findAll[]
     @ReadOnly // <3>
-    @Transactional
     public List<Genre> findAll(@NotNull SortingAndOrderArguments args) {
 //end::findAll[]
 //tag::findAllContent[]
