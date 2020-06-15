@@ -1,4 +1,21 @@
-Create an interface to define the operations to access the database:
+To mark the transaction demarcations, we use the https://docs.oracle.com/javaee/7/api/javax/transaction/Transactional.html[Java EE 7 javax.transaction.Transactional annotation].
+
+But to use it, you have to include the `micronaut-data-processor` dependency in your annotation processor configuration:
+
+[source, groovy]
+.build.gradle
+----
+...
+..
+dependencies {
+...
+..
+.
+include::{sourceDir}/build.gradle[tag="micronaut-data"]
+}
+----
+
+Next, create an interface to define the operations to access the database:
 
 [source,java]
 .src/main/java/example/micronaut/GenreRepository.java
@@ -35,7 +52,7 @@ include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[ta
 
 <1> Use `javax.inject.Singleton` to designate a class a a singleton.
 <2> Inject easily an `EntityManager`.
-<3> All database access needs to be wrapped inside a transaction, we use Micronaut's `@TransactionalAdvice`. As the method
-only reads data from the database, configure it as `readOnly = true`.
-<4> This method modifies the database, define `@TransactionalAdvice` without setting `readOnly`, which, by default is `false`.
+<3> All database access needs to be wrapped inside a transaction, we use Micronaut's `@javax.transaction.Transactional`. As the method
+only reads data from the database, annotate it with `@ReadOnly`.
+<4> This method modifies the database, define `@Transactional` but without the `@ReadOnly` annotation.
 

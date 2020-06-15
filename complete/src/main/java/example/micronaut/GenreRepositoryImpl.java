@@ -2,7 +2,7 @@
 package example.micronaut;
 //end::package[]
 //tag::import[]
-import io.micronaut.transaction.annotation.TransactionalAdvice;
+
 //end::import[]
 //tag::importContent[]
 import example.micronaut.domain.Genre;
@@ -10,6 +10,8 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import io.micronaut.transaction.annotation.ReadOnly;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
@@ -33,7 +35,8 @@ public class GenreRepositoryImpl implements GenreRepository {
     @Override
 //end::clazzContent[]
 //tag::findById[]
-    @TransactionalAdvice(readOnly = true) // <3>
+    @ReadOnly  // <3>
+    @Transactional
     public Optional<Genre> findById(@NotNull Long id) {
 //end::findById[]
 //tag::findByIdContent[]
@@ -43,7 +46,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     @Override
 //end::findByIdContent[]
 //tag::save[]
-    @TransactionalAdvice  // <4>
+    @Transactional  // <4>
     public Genre save(@NotBlank String name) {
 //end::save[]
 //tag::saveContent[]
@@ -55,7 +58,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     @Override
 //end::saveContent[]
 //tag::deleteById[]
-    @TransactionalAdvice // <4>
+    @Transactional // <4>
     public void deleteById(@NotNull Long id) {
 //end::deleteById[]
 //tag::deleteByIdContent[]
@@ -66,7 +69,8 @@ public class GenreRepositoryImpl implements GenreRepository {
 
 //end::deleteByIdContent[]
 //tag::findAll[]
-    @TransactionalAdvice(readOnly = true) // <3>
+    @ReadOnly // <3>
+    @Transactional
     public List<Genre> findAll(@NotNull SortingAndOrderArguments args) {
 //end::findAll[]
 //tag::findAllContent[]
@@ -84,7 +88,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     @Override
 //end::findAllContent[]
 //tag::update[]
-    @TransactionalAdvice // <4>
+    @Transactional // <4>
     public int update(@NotNull Long id, @NotBlank String name) {
 //end::update[]
 //tag::updateContent[]
@@ -97,7 +101,7 @@ public class GenreRepositoryImpl implements GenreRepository {
     @Override // <4>
 //end::updateContent[]
 //tag::saveWithException[]
-    @TransactionalAdvice // <4>
+    @Transactional // <4>
     public Genre saveWithException(@NotBlank String name) {
 //end::saveWithException[]
 //tag::saveWithExceptionContent[]

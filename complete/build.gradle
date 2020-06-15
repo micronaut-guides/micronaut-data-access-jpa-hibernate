@@ -21,6 +21,11 @@ dependencies {
     annotationProcessor(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
     annotationProcessor("io.micronaut:micronaut-inject-java")
 
+    //tag::micronaut-data[]
+    annotationProcessor "io.micronaut.data:micronaut-data-processor"
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    //end::micronaut-data[]
+
     //tag::micronaut-graal[]
     annotationProcessor("io.micronaut:micronaut-graal")
     //end::micronaut-graal[]
