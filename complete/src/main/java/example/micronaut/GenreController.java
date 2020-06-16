@@ -17,8 +17,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-@ExecuteOn(TaskExecutors.IO)
-@Controller("/genres") // <1>
+@ExecuteOn(TaskExecutors.IO)  // <1>
+@Controller("/genres")
 public class GenreController {
 
     protected final GenreRepository genreRepository;

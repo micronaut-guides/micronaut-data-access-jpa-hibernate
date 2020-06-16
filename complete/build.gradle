@@ -1,6 +1,6 @@
 plugins {
     id "com.diffplug.eclipse.apt" version "3.22.0"
-    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
     id "application"
 }
 
@@ -8,8 +8,8 @@ version "0.1"
 group "example.micronaut"
 
 repositories {
+    mavenCentral()
     jcenter()
-    maven { url "https://oss.jfrog.org/oss-snapshot-local" }
 }
 
 configurations {
@@ -18,26 +18,25 @@ configurations {
 }
 
 dependencies {
-    annotationProcessor(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
+    annotationProcessor(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     annotationProcessor("io.micronaut:micronaut-inject-java")
-
-    //tag::micronaut-data[]
-    annotationProcessor "io.micronaut.data:micronaut-data-processor"
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
-    //end::micronaut-data[]
-
-    //tag::micronaut-graal[]
-    annotationProcessor("io.micronaut:micronaut-graal")
-    //end::micronaut-graal[]
     //tag::validator[]
     annotationProcessor("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-validation")
     //end::validator[]
-    compileOnly(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
+    //tag::micronaut-graal[]
+    annotationProcessor("io.micronaut:micronaut-graal")
+    //end::micronaut-graal[]
+    //tag::micronaut-data[]
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    //end::micronaut-data[]
+    compileOnly(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     //tag::svm[]
     compileOnly("org.graalvm.nativeimage:svm")
     //end::svm[]
-    implementation(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
+
     implementation("io.micronaut:micronaut-inject")
 
     implementation("io.micronaut:micronaut-runtime")
@@ -50,11 +49,12 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     //end::jpa[]
 
+
     runtimeOnly("ch.qos.logback:logback-classic")
 
-    testAnnotationProcessor(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
+    testAnnotationProcessor(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     testAnnotationProcessor("io.micronaut:micronaut-inject-java")
-    testImplementation(enforcedPlatform("io.micronaut:micronaut-bom:$micronautVersion"))
+    testImplementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
@@ -102,6 +102,5 @@ tasks.withType(JavaExec) {
     }
 }
 
-apply from: "${project.projectDir}/../gradle/testVerbose.gradle"
 
 

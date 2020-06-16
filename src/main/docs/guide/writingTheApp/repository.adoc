@@ -52,7 +52,7 @@ include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[ta
 
 <1> Use `javax.inject.Singleton` to designate a class a a singleton.
 <2> Inject easily an `EntityManager`.
-<3> All database access needs to be wrapped inside a transaction, we use Micronaut's `@javax.transaction.Transactional`. As the method
+<3> All database access needs to be wrapped inside a transaction. As the method
 only reads data from the database, annotate it with `@ReadOnly`.
-<4> This method modifies the database, define `@Transactional` but without the `@ReadOnly` annotation.
+<4> This method modifies the database, thus it is annoated with `@Transactional`.
 
