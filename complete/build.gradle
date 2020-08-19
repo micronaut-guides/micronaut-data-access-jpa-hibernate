@@ -2,6 +2,7 @@ plugins {
     id "com.diffplug.eclipse.apt" version "3.22.0"
     id "com.github.johnrengelman.shadow" version "6.0.0"
     id "application"
+    id "groovy"
 }
 
 version "0.1"
@@ -58,6 +59,11 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation("org.spockframework:spock-core") {
+        exclude module: 'groovy-all'
+    }
 }
 
 test.classpath += configurations.developmentOnly
