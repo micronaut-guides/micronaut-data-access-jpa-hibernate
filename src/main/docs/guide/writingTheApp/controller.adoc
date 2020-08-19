@@ -44,5 +44,6 @@ include::{sourceDir}/src/main/java/example/micronaut/GenreController.java[]
 <8> It is easy to add custom headers to the response.
 <9> Maps a `GET` request to `/genres` which returns a list of genres. This mapping illustrates URL parameters being mapped to a single POJO.
 <10> Maps a `POST` request to `/genres` which attempts to save a genre.
-<11> Maps a `DELETE` request to `/genres/{id}` which attempts to remove a genre. This illustrates the use of a URL path variable.
+<11> Maps a `POST` request to `/ex` which generates an exception.
+<12> Maps a `DELETE` request to `/genres/{id}` which attempts to remove a genre. This illustrates the use of a URL path variable.
 

@@ -18,37 +18,37 @@ import java.net.URI;
 import java.util.List;
 
 @ExecuteOn(TaskExecutors.IO)  // <1>
-@Controller("/genres")
+@Controller("/genres")  // <2>
 public class GenreController {
 
     protected final GenreRepository genreRepository;
 
-    public GenreController(GenreRepository genreRepository) { // <2>
+    public GenreController(GenreRepository genreRepository) { // <3>
         this.genreRepository = genreRepository;
     }
 
-    @Get("/{id}") // <3>
+    @Get("/{id}") // <4>
     public Genre show(Long id) {
         return genreRepository
                 .findById(id)
-                .orElse(null); // <4>
+                .orElse(null); // <5>
     }
 
-    @Put // <5>
-    public HttpResponse update(@Body @Valid GenreUpdateCommand command) { // <6>
+    @Put // <6>
+    public HttpResponse update(@Body @Valid GenreUpdateCommand command) { // <7>
         int numberOfEntitiesUpdated = genreRepository.update(command.getId(), command.getName());
 
         return HttpResponse
                 .noContent()
-                .header(HttpHeaders.LOCATION, location(command.getId()).getPath()); // <7>
+                .header(HttpHeaders.LOCATION, location(command.getId()).getPath()); // <8>
     }
 
-    @Get(value = "/list{?args*}") // <8>
+    @Get(value = "/list{?args*}") // <9>
     public List<Genre> list(@Valid SortingAndOrderArguments args) {
         return genreRepository.findAll(args);
     }
 
-    @Post // <9>
+    @Post // <10>
     public HttpResponse<Genre> save(@Body @Valid GenreSaveCommand cmd) {
         Genre genre = genreRepository.save(cmd.getName());
 
@@ -57,7 +57,7 @@ public class GenreController {
                 .headers(headers -> headers.location(location(genre.getId())));
     }
 
-    @Post("/ex") // <9>
+    @Post("/ex") // <11>
     public HttpResponse<Genre> saveExceptions(@Body @Valid GenreSaveCommand cmd) {
         try {
             Genre genre = genreRepository.saveWithException(cmd.getName());
@@ -69,7 +69,7 @@ public class GenreController {
         }
     }
 
-    @Delete("/{id}") // <10>
+    @Delete("/{id}") // <12>
     public HttpResponse delete(Long id) {
         genreRepository.deleteById(id);
         return HttpResponse.noContent();
