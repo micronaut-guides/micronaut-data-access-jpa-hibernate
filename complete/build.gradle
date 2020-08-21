@@ -11,7 +11,6 @@ group "example.micronaut"
 repositories {
     mavenCentral()
     jcenter()
-    maven { url 'https://jitpack.io' }
 }
 
 configurations {
@@ -49,7 +48,6 @@ dependencies {
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.sql:micronaut-hibernate-jpa")
     runtimeOnly("com.h2database:h2")
-    runtime 'org.postgresql:postgresql:42.2.4'
     //end::jpa[]
 
 
@@ -66,9 +64,6 @@ dependencies {
     testImplementation("org.spockframework:spock-core") {
         exclude module: 'groovy-all'
     }
-    testImplementation "org.testcontainers:spock:1.13.0"
-    testCompile group: 'org.testcontainers', name: 'postgresql', version: '1.2.1'
-    testCompile 'com.github.testcontainers:testcontainers-spock:87299c10e8'
 }
 
 test.classpath += configurations.developmentOnly
