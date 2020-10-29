@@ -19,8 +19,6 @@ datasources:
 ---
 jpa:
   default:
-    packages-to-scan:
-      - 'example.micronaut.domain' # <1>
     properties:
       hibernate:
         hbm2ddl:

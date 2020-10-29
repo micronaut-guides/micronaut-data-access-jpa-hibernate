@@ -35,4 +35,3 @@ Add the next snippet to `src/main/resources/application.yml` to configure JPA:
 include::{sourceDir}/src/main/resources/application.yml[tag=jpa]
 ----
 
-<1> Entities are scanned in the package `example.micronaut.domain`.
