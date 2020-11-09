@@ -1,12 +1,47 @@
-## Feature jdbc-hikari documentation
+# Micronaut + JPA Example
 
-- [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
+## Using Gradle
 
-## Feature hibernate-jpa documentation
+To run the application locally use:
 
-- [Micronaut Hibernate JPA documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#hibernate)
+```
+./gradlew run -t
+```
 
-## Feature http-client documentation
+The `-t` flag enables automatical reload.
 
-- [Micronaut Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#httpClient)
+To build an executable JAR file run:
 
+```
+./gradlew assemble
+java -jar build/libs/complete-0.1-all.jar
+```
+
+To build a native image (requires JDK 8 version of GraalVM) run:
+
+```
+./gradlew nativeImage
+./build/native-image/application
+```
+
+## Using Maven
+
+To run the application locally use:
+
+```
+./mvnw mn:run
+```
+
+To build an executable JAR file run:
+
+```
+./mvnw package
+java -jar target/demo-0.1.jar
+```
+
+To build a native image (requires JDK 8 version of GraalVM) run:
+
+```
+native-image --report-unsupported-elements-at-runtime -H:Name=application -H:Class=example.micronaut.Application -cp target/demo-0.1.jar
+./application
+```
