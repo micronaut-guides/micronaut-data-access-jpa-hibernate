@@ -50,7 +50,7 @@ include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[ta
 include::{sourceDir}/src/main/java/example/micronaut/GenreRepositoryImpl.java[tag="saveWithExceptionContent"]
 ----
 
-<1> Use `javax.inject.Singleton` to designate a class a a singleton.
+<1> Use `javax.inject.Singleton` to designate a class as a singleton.
 <2> Inject easily an `EntityManager`.
 <3> All database access needs to be wrapped inside a transaction. As the method
 only reads data from the database, annotate it with `@ReadOnly`.
