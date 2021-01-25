@@ -37,6 +37,9 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     //end::jpa[]
 
+    //tag::postgresql[]
+    runtimeOnly("org.postgresql:postgresql")
+    //end::postgresql[]
 
     runtimeOnly("ch.qos.logback:logback-classic")
 
