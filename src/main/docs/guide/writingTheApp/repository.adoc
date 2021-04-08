@@ -15,6 +15,15 @@ include::{sourceDir}/build.gradle[tag="micronaut-data"]
 }
 ----
 
+Create a POJO to encapsulate Sorting and Pagination:
+
+
+[source,java]
+.src/main/java/example/micronaut/SortingAndOrderArguments.java
+----
+include::{sourceDir}/src/main/java/example/micronaut/SortingAndOrderArguments.java[]
+----
+
 Next, create an interface to define the operations to access the database:
 
 [source,java]
