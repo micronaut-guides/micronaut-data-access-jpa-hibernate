@@ -14,16 +14,6 @@ include::{sourceDir}/src/main/java/example/micronaut/GenreSaveCommand.java[]
 ----
 include::{sourceDir}/src/main/java/example/micronaut/GenreUpdateCommand.java[]
 ----
-
-Create a POJO to encapsulate Sorting and Pagination:
-
-
-[source,java]
-.src/main/java/example/micronaut/SortingAndOrderArguments.java
-----
-include::{sourceDir}/src/main/java/example/micronaut/SortingAndOrderArguments.java[]
-----
-
 <1> Use `javax.validation.constraints` Constraints to ensure the incoming data matches your expectations.
 
 Create `GenreController`, a controller which exposes a resource with the common CRUD operations:
